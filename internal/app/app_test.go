@@ -157,14 +157,8 @@ func TestEnsureOutsideWorkspaceResolvesSymlinksWithMixedPaths(t *testing.T) {
 	if err := os.Symlink(workspace, alias); err != nil {
 		t.Skipf("symlinks unavailable: %v", err)
 	}
-	currentDirectory, err := os.Getwd()
-	if err != nil {
-		t.Fatal(err)
-	}
-	relativeWorkspace, err := filepath.Rel(currentDirectory, workspace)
-	if err != nil {
-		t.Fatal(err)
-	}
+	t.Chdir(root)
+	relativeWorkspace := filepath.Base(workspace)
 	if err := ensureOutsideWorkspace(filepath.Join(alias, "simulation.json"), relativeWorkspace); err == nil {
 		t.Fatal("absolute output through a symlink bypassed a relative workspace")
 	}

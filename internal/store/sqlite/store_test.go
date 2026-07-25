@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"runtime"
 	"testing"
 
 	"github.com/balyakin/crawlledger/internal/aggregate"
@@ -202,6 +203,7 @@ func TestOpenReadOnlyFileUsesOpenedInode(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "analysis.sqlite")
 	replacement := filepath.Join(dir, "replacement.sqlite")
+	verified := filepath.Join(dir, "verified.sqlite")
 	for databasePath, marker := range map[string]string{path: "verified", replacement: "replacement"} {
 		database, err := Open(ctx, databasePath)
 		if err != nil {
@@ -217,13 +219,22 @@ func TestOpenReadOnlyFileUsesOpenedInode(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	source, err := os.Open(path)
+	sourcePath := path
+	if runtime.GOOS == "windows" {
+		if err := os.Rename(path, verified); err != nil {
+			t.Fatal(err)
+		}
+		sourcePath = verified
+	}
+	source, err := os.Open(sourcePath)
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer source.Close()
-	if err := os.Rename(path, filepath.Join(dir, "verified.sqlite")); err != nil {
-		t.Fatal(err)
+	if runtime.GOOS != "windows" {
+		if err := os.Rename(path, verified); err != nil {
+			t.Fatal(err)
+		}
 	}
 	if err := os.Rename(replacement, path); err != nil {
 		t.Fatal(err)
