@@ -1,0 +1,4 @@
+:18081 {
+	import ../../golden/Caddyfile.crawlledger
+	respond "synthetic" 200
+}

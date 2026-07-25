@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crawlledger:schema:workspace-manifest:v1",
+  "title": "CrawlLedger workspace manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "analysis_id", "tool_version", "catalog_version", "status", "artifacts", "privacy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "analysis_id": {"type": "string", "pattern": "^an_[0-9a-f]{32}$"},
+    "tool_version": {"type": "string", "minLength": 1, "maxLength": 128},
+    "catalog_version": {"type": "string", "minLength": 1, "maxLength": 256},
+    "status": {"const": "completed"},
+    "artifacts": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/artifact"}},
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_lines_retained", "hmac_key_retained", "anonymous", "residual_risks"],
+      "properties": {
+        "raw_lines_retained": {"const": false},
+        "hmac_key_retained": {"const": false},
+        "anonymous": {"const": false},
+        "residual_risks": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+      }
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "bytes", "sha256"],
+      "properties": {
+        "name": {"enum": ["analysis.sqlite", "report.html", "report.json"]},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

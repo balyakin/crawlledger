@@ -1,0 +1,5 @@
+CrawlLedger includes crawler names derived from the ai-robots-txt project at
+commit a0fed45f0eb6723597028b49d5e0990dd4c41920, used under the MIT License.
+Source: https://github.com/ai-robots-txt/ai.robots.txt
+
+The complete provenance is recorded in internal/catalog/data/NOTICE.md.

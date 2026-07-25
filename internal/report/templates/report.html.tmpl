@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:">
+<title>CrawlLedger report {{.Analysis.ID}}</title>
+<style>
+:root{color-scheme:light;font:16px/1.5 system-ui,sans-serif;color:#172033;background:#f5f7fb}
+body{max-width:74rem;margin:auto;padding:2rem}header,section,footer{background:#fff;margin:1rem 0;padding:1.25rem;border:1px solid #dce2ee;border-radius:.6rem}
+h1,h2{line-height:1.2}dl{display:grid;grid-template-columns:max-content 1fr;gap:.35rem 1rem}dd{margin:0}
+table{width:100%;border-collapse:collapse}caption{text-align:left;font-weight:700;margin:.5rem 0}th,td{padding:.45rem;border-bottom:1px solid #dce2ee;text-align:left;vertical-align:top}
+code{overflow-wrap:anywhere}.severity{font-weight:700}.warning{border-left:.35rem solid #9a6700;padding-left:.75rem}
+@media(max-width:45rem){body{padding:.5rem}section{overflow-x:auto}dl{grid-template-columns:1fr}}
+@media print{@page{size:A4;margin:12mm}body{max-width:none;padding:0;background:#fff}header,section,footer{break-inside:avoid;border-color:#aaa}}
+</style>
+</head>
+<body>
+<header>
+<h1>CrawlLedger traffic audit</h1>
+<p>Local analysis of claimed crawler, security-probe and unclassified traffic. User-Agent claims are not identity verification.</p>
+</header>
+<main>
+<section aria-labelledby="summary"><h2 id="summary">Executive summary</h2>
+<dl><dt>Analysis</dt><dd><code>{{.Analysis.ID}}</code></dd><dt>Status</dt><dd>{{.Analysis.Status}}</dd><dt>Started</dt><dd>{{.Analysis.StartedAt}}</dd><dt>Finished</dt><dd>{{.Analysis.FinishedAt}}</dd><dt>Requests</dt><dd>{{integer .Totals.Requests}}</dd><dt>Bytes sent</dt><dd>{{bytes .Totals.BytesSent}}</dd><dt>Request duration</dt><dd>{{duration .Totals.RequestDurationUS}}</dd><dt>Upstream duration</dt><dd>{{duration .Totals.UpstreamDurationUS}}</dd></dl>
+</section>
+<section aria-labelledby="quality"><h2 id="quality">Data quality and metric coverage</h2>
+<dl><dt>Request duration</dt><dd>{{ratio .Coverage.RequestDurationPPM}}</dd><dt>Upstream duration</dt><dd>{{ratio .Coverage.UpstreamDurationPPM}}</dd><dt>Cache state</dt><dd>{{ratio .Coverage.CacheStatePPM}}</dd><dt>Referer</dt><dd>{{ratio .Coverage.RefererPPM}}</dd><dt>Robots checked</dt><dd>{{ratio .Coverage.RobotsCheckedPPM}}</dd><dt>Rate model</dt><dd>{{ratio .Coverage.RateModelPPM}}</dd></dl>
+</section>
+<section aria-labelledby="classes"><h2 id="classes">Traffic classes</h2><table><caption>Requests by deterministic primary class</caption><thead><tr><th scope="col">Class</th><th scope="col">Requests</th><th scope="col">Bytes</th></tr></thead><tbody>{{range .Classes}}<tr><th scope="row">{{.Class}}</th><td>{{integer .Requests}}</td><td>{{bytes .BytesSent}}</td></tr>{{else}}<tr><td colspan="3">No events</td></tr>{{end}}</tbody></table></section>
+<section aria-labelledby="crawlers"><h2 id="crawlers">Claimed crawlers</h2><table><caption>User-Agent catalog matches</caption><thead><tr><th scope="col">Claim</th><th scope="col">Category</th><th scope="col">Requests</th></tr></thead><tbody>{{range .Crawlers}}<tr><th scope="row">{{.Name}}</th><td>{{.Category}}</td><td>{{integer .Requests}}</td></tr>{{else}}<tr><td colspan="3">No crawler claims</td></tr>{{end}}</tbody></table></section>
+<section aria-labelledby="findings"><h2 id="findings">Findings and evidence</h2>{{range .Findings}}<article><h3>{{.Title}}</h3><p><span class="severity">{{.Severity}}</span> — {{.Summary}}</p><ul>{{range .Evidence}}<li>{{.Metric}}: {{integer .Value}} (threshold {{integer .Threshold}} {{.Unit}})</li>{{end}}</ul></article>{{else}}<p>No deterministic findings crossed configured thresholds. This does not prove the absence of abuse or security issues.</p>{{end}}</section>
+<section aria-labelledby="routes"><h2 id="routes">Top routes</h2><table><caption>Normalized routes</caption><thead><tr><th scope="col">Route</th><th scope="col">Requests</th><th scope="col">Bytes</th></tr></thead><tbody>{{range .Routes}}<tr><th scope="row"><code>{{.Route}}</code></th><td>{{integer .Requests}}</td><td>{{bytes .BytesSent}}</td></tr>{{else}}<tr><td colspan="3">No routes</td></tr>{{end}}</tbody></table></section>
+<section aria-labelledby="cost"><h2 id="cost">Origin and cost allocation</h2><dl><dt>Egress</dt><dd>{{rub .Cost.EgressKopecks}}</dd><dt>Allocated hosting</dt><dd>{{rub .Cost.AllocatedHostingKopecks}}</dd><dt>Total allocated</dt><dd>{{rub .Cost.TotalAllocatedKopecks}}</dd></dl><p>Allocations are proportional historical estimates, not invoices or guaranteed savings.</p></section>
+<section aria-labelledby="policy"><h2 id="policy">Policy workflow instructions</h2><p>Create a reviewed policy JSON, run <code>crawlledger policy simulate</code>, inspect every risk, then render a draft. CrawlLedger never applies or reloads server configuration.</p></section>
+<section aria-labelledby="privacy"><h2 id="privacy">Privacy and methodology</h2>{{range .Assumptions}}<p>{{.}}</p>{{end}}<p>Stable pseudonyms, timestamps, routes, crawler claims and referer hosts retain correlation and re-identification risk.</p></section>
+<section aria-labelledby="warnings"><h2 id="warnings">Warnings and degraded analysis</h2>{{range .DegradedReasons}}<p class="warning">{{.}}</p>{{end}}{{range .Warnings}}<p class="warning">{{.}}</p>{{end}}{{if and (not .DegradedReasons) (not .Warnings)}}<p>No degradation warnings.</p>{{end}}</section>
+</main>
+<footer><p>Generated by CrawlLedger {{.Tool.Version}} with catalog {{.Tool.CatalogVersion}}. Drafts require manual validation and deployment.</p></footer>
+</body>
+</html>

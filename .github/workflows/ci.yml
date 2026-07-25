@@ -1,0 +1,205 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      long_fuzz:
+        description: Run every fuzz target for 10 minutes
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  GO_VERSION: 1.26.5
+
+jobs:
+  unit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Format
+        run: |
+          set -euo pipefail
+          make fmt-check
+      - name: Vet
+        run: |
+          set -euo pipefail
+          go vet ./...
+      - name: Unit tests
+        run: |
+          set -euo pipefail
+          go test -count=1 ./...
+
+  race:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Race tests
+        run: |
+          set -euo pipefail
+          CGO_ENABLED=1 go test -race -count=1 ./...
+
+  fuzz-smoke:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Eight fuzz targets
+        run: |
+          set -euo pipefail
+          make fuzz-smoke
+
+  long-fuzz:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.long_fuzz }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Eight ten-minute fuzz targets
+        run: |
+          set -euo pipefail
+          go test ./internal/parser -run=^$ -fuzz=FuzzNginxCombined -fuzztime=10m
+          go test ./internal/parser -run=^$ -fuzz=FuzzNginxJSON -fuzztime=10m
+          go test ./internal/parser -run=^$ -fuzz=FuzzCaddyJSON -fuzztime=10m
+          go test ./internal/parser -run=^$ -fuzz=FuzzCanonicalJSON -fuzztime=10m
+          go test ./internal/normalize -run=^$ -fuzz=FuzzNormalizePath -fuzztime=10m
+          go test ./internal/normalize -run=^$ -fuzz=FuzzNormalizeQuery -fuzztime=10m
+          go test ./internal/policy -run=^$ -fuzz=FuzzPolicyLoad -fuzztime=10m
+          go test ./internal/aggregate -run=^$ -fuzz=FuzzKMVDecode -fuzztime=10m
+
+  render-validation:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install pinned Nginx from its signed official repository
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            https://nginx.org/packages/keys/nginx_signing.key -o /tmp/nginx_signing.key
+          fingerprint="$(gpg --show-keys --with-colons --fingerprint /tmp/nginx_signing.key |
+            awk -F: '$1=="fpr"{print $10; exit}')"
+          test "$fingerprint" = "8540A6F18833A80E9C1653A42FD21310B49F6B46"
+          gpg --dearmor </tmp/nginx_signing.key | sudo tee /usr/share/keyrings/nginx.gpg >/dev/null
+          echo "deb [signed-by=/usr/share/keyrings/nginx.gpg] https://nginx.org/packages/ubuntu noble nginx" |
+            sudo tee /etc/apt/sources.list.d/nginx.list >/dev/null
+          sudo apt-get update
+          sudo apt-get install --yes nginx=1.30.4-1~noble
+          nginx -v 2>&1 | grep -F "nginx/1.30.4"
+      - name: Install pinned Caddy with official SHA-512
+        run: |
+          set -euo pipefail
+          cd /tmp
+          curl --fail --silent --show-error --location \
+            https://github.com/caddyserver/caddy/releases/download/v2.11.4/caddy_2.11.4_linux_amd64.tar.gz \
+            -o caddy_2.11.4_linux_amd64.tar.gz
+          echo "8220d1f013b6f27510247b2360c9e0ca9f018feebd82515f07635318b34ff9777ccc8fd0b6e6f2486ce3a33fe389fbb7db12d05baa474f4587509fb4f5ebf1c9  caddy_2.11.4_linux_amd64.tar.gz" |
+            sha512sum --check -
+          tar -xzf caddy_2.11.4_linux_amd64.tar.gz caddy
+          sudo install -m 0755 caddy /usr/local/bin/caddy
+          caddy version | grep -F "v2.11.4"
+      - name: Validate generated fragments
+        run: |
+          set -euo pipefail
+          nginx -t -c "$PWD/testdata/generated/nginx/nginx.conf" \
+            -p "$PWD/testdata/generated/nginx"
+          caddy adapt --config testdata/generated/caddy/Caddyfile \
+            --adapter caddyfile --validate >/dev/null
+          caddy validate --config testdata/generated/caddy/Caddyfile
+
+  offline:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Run analysis without a network namespace
+        run: |
+          set -euo pipefail
+          CGO_ENABLED=0 go build -trimpath -o /tmp/crawlledger ./cmd/crawlledger
+          work="$(mktemp -d)"
+          sudo unshare --net --mount-proc bash -c "
+            set -euo pipefail
+            /tmp/crawlledger analyze \
+              --input '$PWD/testdata/logs/nginx-combined/valid.log' \
+              --format nginx-combined --output '$work/audit'
+            /tmp/crawlledger policy simulate \
+              --workspace '$work/audit' --policy '$PWD/testdata/policies/cache.json' \
+              --output '$work/simulation.json'
+          "
+
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {goos: linux, goarch: amd64}
+          - {goos: linux, goarch: arm64}
+          - {goos: darwin, goarch: amd64}
+          - {goos: darwin, goarch: arm64}
+          - {goos: windows, goarch: amd64}
+          - {goos: windows, goarch: arm64}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Pure-Go cross-build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          set -euo pipefail
+          suffix=""
+          if test "$GOOS" = windows; then suffix=".exe"; fi
+          go build -trimpath -o "/tmp/crawlledger-${GOOS}-${GOARCH}${suffix}" ./cmd/crawlledger
+
+  docs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: go.sum
+      - name: Schemas, architecture, docs and dependency integrity
+        run: |
+          set -euo pipefail
+          go test -count=1 ./schemas ./internal/architecture
+          go mod verify
+          test -s docs/demo-report.png
+          test -s internal/catalog/data/NOTICE.md
+          ! rg -n 'boosty\\.to/(owner|example)|Professional audit' README.md
+          ! rg -n 'TO''DO|FIX''ME|panic\\(\"not implemented\"\\)' \
+            --glob '*.go' --glob '!**/*_test.go' .

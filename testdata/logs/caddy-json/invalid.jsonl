@@ -1,0 +1,2 @@
+{"ts":"bad","request":{"remote_ip":"192.0.2.10","method":"GET","uri":"/","headers":{}},"status":200,"size":1,"duration":0.1}
+{"ts":1784877072,"request":{"remote_ip":"192.0.2.10","method":"GET","uri":"/","headers":{"User-Agent":"Synthetic"}},"status":200,"size":1,"duration":0.1}

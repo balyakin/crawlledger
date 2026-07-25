@@ -1,0 +1,1 @@
+192.0.2.77 - - [24/Jul/2026:10:11:12 +0300] "GET /private?email=canary-person%40example.test&token=SYNTHETIC_SECRET_7XQ HTTP/1.1" 200 42 "https://ref.example/private/canary-ref-7XQ" "CanaryAgent-7XQ/1.0"

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crawlledger:schema:simulation:v1",
+  "title": "CrawlLedger simulation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "analysis_id", "policy_hash", "status", "coverage", "totals", "rule_impacts", "risks", "assumptions"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^pr_[0-9a-f]{16}$"},
+    "analysis_id": {"type": "string", "pattern": "^an_[0-9a-f]{32}$"},
+    "policy_hash": {"$ref": "#/$defs/sha256"},
+    "status": {"enum": ["safe", "requires_ack", "blocked", "analysis_only"]},
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rate_model_ppm", "path_policy_coverage_ppm"],
+      "properties": {
+        "rate_model_ppm": {"$ref": "#/$defs/ppm"},
+        "path_policy_coverage_ppm": {"anyOf": [{"$ref": "#/$defs/ppm"}, {"type": "null"}]}
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed_requests", "allowed_requests", "denied_requests", "rate_limited_requests", "cache_candidate_requests", "bytes_avoided", "upstream_us_avoided", "allocated_cost_avoided_kopecks"],
+      "properties": {
+        "observed_requests": {"$ref": "#/$defs/count"},
+        "allowed_requests": {"$ref": "#/$defs/count"},
+        "denied_requests": {"$ref": "#/$defs/count"},
+        "rate_limited_requests": {"$ref": "#/$defs/count"},
+        "cache_candidate_requests": {"$ref": "#/$defs/count"},
+        "bytes_avoided": {"$ref": "#/$defs/count"},
+        "upstream_us_avoided": {"$ref": "#/$defs/countNullable"},
+        "allocated_cost_avoided_kopecks": {"$ref": "#/$defs/countNullable"}
+      }
+    },
+    "rule_impacts": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/impact"}},
+    "risks": {"type": "array", "maxItems": 1000, "items": {"$ref": "#/$defs/risk"}},
+    "assumptions": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 1024}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ppm": {"type": "integer", "minimum": 0, "maximum": 1000000},
+    "count": {"type": "integer", "minimum": 0},
+    "countNullable": {"type": ["integer", "null"], "minimum": 0},
+    "impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "action", "matched_requests", "allowed", "denied", "rate_limited", "bytes_avoided", "upstream_us_avoided", "allocated_cost_avoided_kopecks", "claimed_crawlers_affected", "top_routes_affected", "metric_coverage_ppm", "path_policy_coverage_ppm", "eligible_observed", "cache_misses_observed", "warnings"],
+      "properties": {
+        "rule_id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,62}$"},
+        "action": {"enum": ["allow", "deny", "rate_limit", "cache"]},
+        "matched_requests": {"$ref": "#/$defs/count"},
+        "allowed": {"$ref": "#/$defs/count"},
+        "denied": {"$ref": "#/$defs/count"},
+        "rate_limited": {"$ref": "#/$defs/count"},
+        "bytes_avoided": {"$ref": "#/$defs/count"},
+        "upstream_us_avoided": {"$ref": "#/$defs/countNullable"},
+        "allocated_cost_avoided_kopecks": {"$ref": "#/$defs/countNullable"},
+        "claimed_crawlers_affected": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+        "top_routes_affected": {"type": "array", "maxItems": 20, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 512}},
+        "metric_coverage_ppm": {"$ref": "#/$defs/ppm"},
+        "path_policy_coverage_ppm": {"anyOf": [{"$ref": "#/$defs/ppm"}, {"type": "null"}]},
+        "eligible_observed": {"$ref": "#/$defs/count"},
+        "cache_misses_observed": {"$ref": "#/$defs/count"},
+        "warnings": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 512}}
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "severity", "acknowledgeable", "message"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 256},
+        "severity": {"enum": ["info", "low", "medium", "high", "critical"]},
+        "acknowledgeable": {"type": "boolean"},
+        "message": {"type": "string", "minLength": 1, "maxLength": 1024}
+      }
+    }
+  }
+}

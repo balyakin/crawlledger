@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "limits": {
+    "max_line_bytes": 1048576,
+    "max_uncompressed_bytes": 21474836480,
+    "max_gzip_ratio": 200,
+    "max_routes": 50000,
+    "max_user_agents": 100000,
+    "max_rate_subjects": 100000,
+    "max_batch_cells": 50000,
+    "max_saved_parse_errors": 1000
+  },
+  "thresholds": {
+    "crawltrap_min_requests": 1000,
+    "crawltrap_min_url_variants": 200,
+    "crawltrap_variant_ratio_ppm": 500000,
+    "query_min_requests": 500,
+    "query_min_variants": 200,
+    "query_variant_ratio_ppm": 300000,
+    "expensive_404_min_requests": 100,
+    "expensive_404_ratio_ppm": 700000,
+    "expensive_404_min_upstream_us": 5000000,
+    "cache_bust_min_requests": 500,
+    "cache_bust_miss_ratio_ppm": 800000,
+    "automation_min_requests": 1000,
+    "automation_min_routes": 300,
+    "automation_4xx_ratio_ppm": 800000,
+    "automation_no_referer_ratio_ppm": 990000,
+    "automation_min_probes": 10,
+    "automation_score_threshold": 4
+  },
+  "costs": {
+    "monthly_hosting_kopecks": 262974600,
+    "egress_kopecks_per_gib": 10000
+  }
+}

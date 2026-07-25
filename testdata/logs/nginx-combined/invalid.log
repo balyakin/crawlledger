@@ -1,0 +1,3 @@
+not-an-access-log
+192.0.2.10 - - [bad-time] "GET / HTTP/1.1" 200 1 "-" "Synthetic"
+192.0.2.10 - - [24/Jul/2026:10:11:12 +0300] "GET / HTTP/1.1" 999 1 "-" "Synthetic"

@@ -1,0 +1,1354 @@
+[
+  {
+    "name": "AddSearchBot",
+    "token": "AddSearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "AgentTimes",
+    "token": "AgentTimes",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "AI2Bot",
+    "token": "AI2Bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "AI2Bot-DeepResearchEval",
+    "token": "AI2Bot-DeepResearchEval",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Ai2Bot-Dolma",
+    "token": "Ai2Bot-Dolma",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "aiHitBot",
+    "token": "aiHitBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "AIWebIndex",
+    "token": "AIWebIndex",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "amazon-kendra",
+    "token": "amazon-kendra",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "amazon-QBusiness",
+    "token": "amazon-QBusiness",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Amazonbot",
+    "token": "Amazonbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "AmazonBuyForMe",
+    "token": "AmazonBuyForMe",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Amzn-SearchBot",
+    "token": "Amzn-SearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Amzn-User",
+    "token": "Amzn-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Andibot",
+    "token": "Andibot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Anomura",
+    "token": "Anomura",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "anthropic-ai",
+    "token": "anthropic-ai",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ApifyBot",
+    "token": "ApifyBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ApifyWebsiteContentCrawler",
+    "token": "ApifyWebsiteContentCrawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Applebot",
+    "token": "Applebot",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "Applebot-Extended",
+    "token": "Applebot-Extended",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Aranet-SearchBot",
+    "token": "Aranet-SearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "atlassian-bot",
+    "token": "atlassian-bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Awario",
+    "token": "Awario",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "AzureAI-SearchBot",
+    "token": "AzureAI-SearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "bedrockbot",
+    "token": "bedrockbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "bigsur.ai",
+    "token": "bigsur.ai",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Bravebot",
+    "token": "Bravebot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Brightbot",
+    "token": "Brightbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Brightbot 1.0",
+    "token": "Brightbot 1.0",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "BuddyBot",
+    "token": "BuddyBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Bytespider",
+    "token": "Bytespider",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "CCBot",
+    "token": "CCBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Channel3Bot",
+    "token": "Channel3Bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ChatGLM-Spider",
+    "token": "ChatGLM-Spider",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ChatGPT Agent",
+    "token": "ChatGPT Agent",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ChatGPT-User",
+    "token": "ChatGPT-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Claude-Code",
+    "token": "Claude-Code",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Claude-SearchBot",
+    "token": "Claude-SearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Claude-User",
+    "token": "Claude-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Claude-Web",
+    "token": "Claude-Web",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ClaudeBot",
+    "token": "ClaudeBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Cloudflare-AutoRAG",
+    "token": "Cloudflare-AutoRAG",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "CloudVertexBot",
+    "token": "CloudVertexBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Code",
+    "token": "Code",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "cohere-ai",
+    "token": "cohere-ai",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "cohere-training-data-crawler",
+    "token": "cohere-training-data-crawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Cotoyogi",
+    "token": "Cotoyogi",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "CragCrawler",
+    "token": "CragCrawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Crawl4AI",
+    "token": "Crawl4AI",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Crawlspace",
+    "token": "Crawlspace",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Cursor",
+    "token": "Cursor",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Datenbank Crawler",
+    "token": "Datenbank Crawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "DeepSeekBot",
+    "token": "DeepSeekBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Devin",
+    "token": "Devin",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Diffbot",
+    "token": "Diffbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "DuckAssistBot",
+    "token": "DuckAssistBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Echobot Bot",
+    "token": "Echobot Bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "EchoboxBot",
+    "token": "EchoboxBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ExaBot",
+    "token": "ExaBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "FacebookBot",
+    "token": "FacebookBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "facebookexternalhit",
+    "token": "facebookexternalhit",
+    "category": "claimed_other_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "Factset_spyderbot",
+    "token": "Factset_spyderbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "FirecrawlAgent",
+    "token": "FirecrawlAgent",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "FriendlyCrawler",
+    "token": "FriendlyCrawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GeistHaus-PageFetcher",
+    "token": "GeistHaus-PageFetcher",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Gemini-Deep-Research",
+    "token": "Gemini-Deep-Research",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Google-Agent",
+    "token": "Google-Agent",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Google-CloudVertexBot",
+    "token": "Google-CloudVertexBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Google-Extended",
+    "token": "Google-Extended",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Google-Firebase",
+    "token": "Google-Firebase",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Google-Gemini-CLI",
+    "token": "Google-Gemini-CLI",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Google-NotebookLM",
+    "token": "Google-NotebookLM",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GoogleAgent-Mariner",
+    "token": "GoogleAgent-Mariner",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GoogleAgent-URLContext",
+    "token": "GoogleAgent-URLContext",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GoogleOther",
+    "token": "GoogleOther",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GoogleOther-Image",
+    "token": "GoogleOther-Image",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GoogleOther-Video",
+    "token": "GoogleOther-Video",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "GPTBot",
+    "token": "GPTBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "HenkBot",
+    "token": "HenkBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "iAskBot",
+    "token": "iAskBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "iaskspider",
+    "token": "iaskspider",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "iaskspider/2.0",
+    "token": "iaskspider/2.0",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "IbouBot",
+    "token": "IbouBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ICC-Crawler",
+    "token": "ICC-Crawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ImagesiftBot",
+    "token": "ImagesiftBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "imageSpider",
+    "token": "imageSpider",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "img2dataset",
+    "token": "img2dataset",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ISSCyberRiskCrawler",
+    "token": "ISSCyberRiskCrawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "kagi-fetcher",
+    "token": "kagi-fetcher",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Kangaroo Bot",
+    "token": "Kangaroo Bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Kimi-User",
+    "token": "Kimi-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "KlaviyoAIBot",
+    "token": "KlaviyoAIBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "KunatoCrawler",
+    "token": "KunatoCrawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "laion-huggingface-processor",
+    "token": "laion-huggingface-processor",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "LAIONDownloader",
+    "token": "LAIONDownloader",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "LCC",
+    "token": "LCC",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "LinerBot",
+    "token": "LinerBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Linguee Bot",
+    "token": "Linguee Bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "LinkupBot",
+    "token": "LinkupBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Manus-User",
+    "token": "Manus-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Meta-ExternalAgent",
+    "token": "Meta-ExternalAgent",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Meta-ExternalFetcher",
+    "token": "Meta-ExternalFetcher",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "meta-webindexer",
+    "token": "meta-webindexer",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "MistralAI-User",
+    "token": "MistralAI-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "MistralAI-User/1.0",
+    "token": "MistralAI-User/1.0",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Mozilla-Tabstack",
+    "token": "Mozilla-Tabstack",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "MyCentralAIScraperBot",
+    "token": "MyCentralAIScraperBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "NagetBot",
+    "token": "NagetBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "netEstate Imprint Crawler",
+    "token": "netEstate Imprint Crawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "newsai",
+    "token": "newsai",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "NotebookLM",
+    "token": "NotebookLM",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "NovaAct",
+    "token": "NovaAct",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "OAI-SearchBot",
+    "token": "OAI-SearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "omgili",
+    "token": "omgili",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "omgilibot",
+    "token": "omgilibot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "OpenAI",
+    "token": "OpenAI",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "opencode",
+    "token": "opencode",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Operator",
+    "token": "Operator",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "PanguBot",
+    "token": "PanguBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Panscient",
+    "token": "Panscient",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "panscient.com",
+    "token": "panscient.com",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Perplexity-User",
+    "token": "Perplexity-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "PerplexityBot",
+    "token": "PerplexityBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "PetalBot",
+    "token": "PetalBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "PhindBot",
+    "token": "PhindBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Poggio-Citations",
+    "token": "Poggio-Citations",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Poseidon Research Crawler",
+    "token": "Poseidon Research Crawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "QualifiedBot",
+    "token": "QualifiedBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Querit-SearchBot",
+    "token": "Querit-SearchBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "QueritBot",
+    "token": "QueritBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "QuillBot",
+    "token": "QuillBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "quillbot.com",
+    "token": "quillbot.com",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "SBIntuitionsBot",
+    "token": "SBIntuitionsBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Scrapy",
+    "token": "Scrapy",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "SemrushBot-OCOB",
+    "token": "SemrushBot-OCOB",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "SemrushBot-SWA",
+    "token": "SemrushBot-SWA",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Shap-User",
+    "token": "Shap-User",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ShapBot",
+    "token": "ShapBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Sidetrade indexer bot",
+    "token": "Sidetrade indexer bot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Spider",
+    "token": "Spider",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "TavilyBot",
+    "token": "TavilyBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Terra Cotta",
+    "token": "Terra Cotta",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "TerraCotta",
+    "token": "TerraCotta",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Thinkbot",
+    "token": "Thinkbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "TikTokSpider",
+    "token": "TikTokSpider",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Timpibot",
+    "token": "Timpibot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "TongyiBot",
+    "token": "TongyiBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Trae",
+    "token": "Trae",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "TwinAgent",
+    "token": "TwinAgent",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "UseAI",
+    "token": "UseAI",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "VelenPublicWebCrawler",
+    "token": "VelenPublicWebCrawler",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "WARDBot",
+    "token": "WARDBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Webzio-Extended",
+    "token": "Webzio-Extended",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "wpbot",
+    "token": "wpbot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "WRTNBot",
+    "token": "WRTNBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "YaK",
+    "token": "YaK",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "YandexAdditional",
+    "token": "YandexAdditional",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "YandexAdditionalBot",
+    "token": "YandexAdditionalBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "YiyanBot",
+    "token": "YiyanBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "YouBot",
+    "token": "YouBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "ZanistaBot",
+    "token": "ZanistaBot",
+    "category": "claimed_ai_crawler",
+    "protected_default": false,
+    "source": "ai-robots-txt",
+    "source_version": "a0fed45f0eb6723597028b49d5e0990dd4c41920"
+  },
+  {
+    "name": "Googlebot",
+    "token": "Googlebot",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "bingbot",
+    "token": "bingbot",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "YandexBot",
+    "token": "YandexBot",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "DuckDuckBot",
+    "token": "DuckDuckBot",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "Baiduspider",
+    "token": "Baiduspider",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "Slurp",
+    "token": "Slurp",
+    "category": "claimed_search_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "ia_archiver",
+    "token": "ia_archiver",
+    "category": "claimed_other_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  },
+  {
+    "name": "archive.org_bot",
+    "token": "archive.org_bot",
+    "category": "claimed_other_crawler",
+    "protected_default": true,
+    "source": "crawlledger-curated",
+    "source_version": "v1"
+  }
+]

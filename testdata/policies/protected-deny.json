@@ -1,0 +1,1 @@
+{"schema_version":1,"name":"protected-deny","description":"Synthetic acknowledgement scenario.","rules":[{"id":"deny-googlebot","match":{"crawler_names":["Googlebot"],"categories":[],"path_prefixes":[],"methods":[]},"action":{"kind":"deny","rate_profile":null,"cache_ttl_seconds":null}}]}

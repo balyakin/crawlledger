@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crawlledger:schema:report:v1",
+  "title": "CrawlLedger report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tool", "analysis", "coverage", "totals", "classes", "crawlers", "routes", "findings", "cost", "methodology", "assumptions", "degraded_reasons", "warnings"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "catalog_version"],
+      "properties": {
+        "name": {"const": "crawlledger"},
+        "version": {"type": "string", "minLength": 1, "maxLength": 128},
+        "catalog_version": {"type": "string", "minLength": 1, "maxLength": 256}
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "started_at", "finished_at", "first_event_at", "last_event_at", "status", "input_format"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^an_[0-9a-f]{32}$"},
+        "started_at": {"type": "string", "format": "date-time"},
+        "finished_at": {"type": "string", "format": "date-time"},
+        "first_event_at": {"type": ["string", "null"], "format": "date-time"},
+        "last_event_at": {"type": ["string", "null"], "format": "date-time"},
+        "status": {"const": "completed"},
+        "input_format": {"enum": ["nginx-combined", "nginx-json", "caddy-json", "crawlledger-json"]}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_duration_ppm", "upstream_duration_ppm", "cache_state_ppm", "referer_ppm", "robots_checked_ppm", "rate_model_ppm"],
+      "properties": {
+        "request_duration_ppm": {"$ref": "#/$defs/ppm"},
+        "upstream_duration_ppm": {"$ref": "#/$defs/ppm"},
+        "cache_state_ppm": {"$ref": "#/$defs/ppm"},
+        "referer_ppm": {"$ref": "#/$defs/ppm"},
+        "robots_checked_ppm": {"$ref": "#/$defs/ppm"},
+        "rate_model_ppm": {"$ref": "#/$defs/ppm"}
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lines", "accepted", "rejected", "skipped", "requests", "bytes_sent", "request_duration_us", "upstream_duration_us"],
+      "properties": {
+        "lines": {"$ref": "#/$defs/count"},
+        "accepted": {"$ref": "#/$defs/count"},
+        "rejected": {"$ref": "#/$defs/count"},
+        "skipped": {"$ref": "#/$defs/count"},
+        "requests": {"$ref": "#/$defs/count"},
+        "bytes_sent": {"$ref": "#/$defs/count"},
+        "request_duration_us": {"$ref": "#/$defs/countNullable"},
+        "upstream_duration_us": {"$ref": "#/$defs/countNullable"}
+      }
+    },
+    "classes": {"type": "array", "items": {"$ref": "#/$defs/class"}},
+    "crawlers": {"type": "array", "maxItems": 100, "items": {"$ref": "#/$defs/crawler"}},
+    "routes": {"type": "array", "maxItems": 500, "items": {"$ref": "#/$defs/route"}},
+    "findings": {"type": "array", "maxItems": 10000, "items": {"$ref": "#/$defs/finding"}},
+    "cost": {"$ref": "#/$defs/cost"},
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "route_normalization", "cost_allocation"],
+      "properties": {
+        "classification": {"const": "claimed-user-agent-v1"},
+        "route_normalization": {"const": "route-v1"},
+        "cost_allocation": {"const": "allocation-v1"}
+      }
+    },
+    "assumptions": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 1024}},
+    "degraded_reasons": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+    "warnings": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+  },
+  "$defs": {
+    "ppm": {"type": "integer", "minimum": 0, "maximum": 1000000},
+    "count": {"type": "integer", "minimum": 0},
+    "countNullable": {"type": ["integer", "null"], "minimum": 0},
+    "classEnum": {"enum": ["claimed_ai_crawler", "claimed_search_crawler", "claimed_other_crawler", "security_probe", "unclassified"]},
+    "class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class", "requests", "bytes_sent", "upstream_duration_us"],
+      "properties": {
+        "class": {"$ref": "#/$defs/classEnum"},
+        "requests": {"$ref": "#/$defs/count"},
+        "bytes_sent": {"$ref": "#/$defs/count"},
+        "upstream_duration_us": {"$ref": "#/$defs/countNullable"}
+      }
+    },
+    "crawler": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "category", "protected_default", "requests", "bytes_sent", "upstream_duration_us"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "maxLength": 128},
+        "category": {"enum": ["claimed_ai_crawler", "claimed_search_crawler", "claimed_other_crawler"]},
+        "protected_default": {"type": "boolean"},
+        "requests": {"$ref": "#/$defs/count"},
+        "bytes_sent": {"$ref": "#/$defs/count"},
+        "upstream_duration_us": {"$ref": "#/$defs/countNullable"}
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route", "actionable_prefix", "requests", "query_requests", "status_404", "cache_misses", "bytes_sent", "upstream_duration_us", "distinct_clients", "distinct_urls", "distinct_queries", "distinct_approximate", "top_query_keys"],
+      "properties": {
+        "route": {"type": "string", "minLength": 1, "maxLength": 512},
+        "actionable_prefix": {"type": ["string", "null"], "minLength": 1, "maxLength": 256},
+        "requests": {"$ref": "#/$defs/count"},
+        "query_requests": {"$ref": "#/$defs/count"},
+        "status_404": {"$ref": "#/$defs/count"},
+        "cache_misses": {"$ref": "#/$defs/count"},
+        "bytes_sent": {"$ref": "#/$defs/count"},
+        "upstream_duration_us": {"$ref": "#/$defs/countNullable"},
+        "distinct_clients": {"$ref": "#/$defs/count"},
+        "distinct_urls": {"$ref": "#/$defs/count"},
+        "distinct_queries": {"$ref": "#/$defs/count"},
+        "distinct_approximate": {"type": "boolean"},
+        "top_query_keys": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 80}}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "value", "threshold", "unit"],
+      "properties": {
+        "metric": {"type": "string", "minLength": 1, "maxLength": 128},
+        "value": {"type": "integer"},
+        "threshold": {"type": "integer"},
+        "unit": {"type": "string", "minLength": 1, "maxLength": 64}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "severity", "title", "summary", "route", "subject", "evidence", "recommended_action", "confidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^fd_[0-9a-f]{16}$"},
+        "kind": {"enum": ["crawl_trap_path_cardinality", "query_space_explosion", "expensive_404", "cache_busting", "robots_violation", "security_probe", "automation_candidate", "metrics_missing", "input_order_degraded", "cardinality_overflow"]},
+        "severity": {"enum": ["info", "low", "medium", "high", "critical"]},
+        "title": {"type": "string", "minLength": 1, "maxLength": 256},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "route": {"type": ["string", "null"], "maxLength": 512},
+        "subject": {"type": ["string", "null"], "maxLength": 256},
+        "evidence": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/evidence"}},
+        "recommended_action": {"type": "string", "minLength": 1, "maxLength": 128},
+        "confidence": {"enum": ["low", "medium", "high"]}
+      }
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "egress_kopecks", "allocated_hosting_kopecks", "total_allocated_kopecks", "model"],
+      "properties": {
+        "currency": {"const": "RUB"},
+        "egress_kopecks": {"$ref": "#/$defs/countNullable"},
+        "allocated_hosting_kopecks": {"$ref": "#/$defs/countNullable"},
+        "total_allocated_kopecks": {"$ref": "#/$defs/countNullable"},
+        "model": {"const": "allocation-v1"}
+      }
+    }
+  }
+}

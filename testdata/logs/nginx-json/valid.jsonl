@@ -1,0 +1,2 @@
+{"timestamp":"2026-07-24T07:11:12Z","remote_addr":"192.0.2.10","method":"GET","uri":"/archive?page=42","status":"200","bytes_sent":"1234","request_time":"0.120","upstream_response_time":"0.100","upstream_cache_status":"MISS","user_agent":"GPTBot/1.0","referer":"-"}
+{"timestamp":"2026-07-24T07:12:12Z","remote_addr":"198.51.100.20","method":"GET","uri":"/index","status":"200","bytes_sent":"99","request_time":"0.010","upstream_response_time":"0.004, 0.003","upstream_cache_status":"HIT","user_agent":"Googlebot/2.1","referer":"https://docs.example/"}

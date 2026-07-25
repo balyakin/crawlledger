@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crawlledger:schema:sanitized-manifest:v1",
+  "title": "CrawlLedger sanitized manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tool_version", "catalog_version", "key_id", "created_at", "format", "compression", "sha256", "accepted", "rejected", "skipped", "privacy", "warnings"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "tool_version": {"type": "string", "minLength": 1, "maxLength": 128},
+    "catalog_version": {"type": "string", "minLength": 1, "maxLength": 256},
+    "key_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "format": {"const": "crawlledger-json"},
+    "compression": {"const": "gzip"},
+    "sha256": {"$ref": "#/$defs/sha256"},
+    "accepted": {"$ref": "#/$defs/count"},
+    "rejected": {"$ref": "#/$defs/count"},
+    "skipped": {"$ref": "#/$defs/count"},
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["client_ip", "query_values", "user_agent", "referer", "raw_lines_retained", "anonymous", "residual_risks"],
+      "properties": {
+        "client_ip": {"const": "hmac-sha256-truncated-128"},
+        "query_values": {"const": "hmac-only"},
+        "user_agent": {"const": "hmac-sha256-and-claim-only"},
+        "referer": {"const": "host-only"},
+        "raw_lines_retained": {"const": false},
+        "anonymous": {"const": false},
+        "residual_risks": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "count": {"type": "integer", "minimum": 0}
+  }
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:">
+<title>CrawlLedger report an_2d7768d29368c85cbdef71fad5833d19</title>
+<style>
+:root{color-scheme:light;font:16px/1.5 system-ui,sans-serif;color:#172033;background:#f5f7fb}
+body{max-width:74rem;margin:auto;padding:2rem}header,section,footer{background:#fff;margin:1rem 0;padding:1.25rem;border:1px solid #dce2ee;border-radius:.6rem}
+h1,h2{line-height:1.2}dl{display:grid;grid-template-columns:max-content 1fr;gap:.35rem 1rem}dd{margin:0}
+table{width:100%;border-collapse:collapse}caption{text-align:left;font-weight:700;margin:.5rem 0}th,td{padding:.45rem;border-bottom:1px solid #dce2ee;text-align:left;vertical-align:top}
+code{overflow-wrap:anywhere}.severity{font-weight:700}.warning{border-left:.35rem solid #9a6700;padding-left:.75rem}
+@media(max-width:45rem){body{padding:.5rem}section{overflow-x:auto}dl{grid-template-columns:1fr}}
+@media print{@page{size:A4;margin:12mm}body{max-width:none;padding:0;background:#fff}header,section,footer{break-inside:avoid;border-color:#aaa}}
+</style>
+</head>
+<body>
+<header>
+<h1>CrawlLedger traffic audit</h1>
+<p>Local analysis of claimed crawler, security-probe and unclassified traffic. User-Agent claims are not identity verification.</p>
+</header>
+<main>
+<section aria-labelledby="summary"><h2 id="summary">Executive summary</h2>
+<dl><dt>Analysis</dt><dd><code>an_2d7768d29368c85cbdef71fad5833d19</code></dd><dt>Status</dt><dd>completed</dd><dt>Started</dt><dd>2026-07-24T13:17:04.025028Z</dd><dt>Finished</dt><dd>2026-07-24T13:17:04.030578Z</dd><dt>Requests</dt><dd>3</dd><dt>Bytes sent</dt><dd>1.5 KiB</dd><dt>Request duration</dt><dd>Not available</dd><dt>Upstream duration</dt><dd>Not available</dd></dl>
+</section>
+<section aria-labelledby="quality"><h2 id="quality">Data quality and metric coverage</h2>
+<dl><dt>Request duration</dt><dd>0.0%</dd><dt>Upstream duration</dt><dd>0.0%</dd><dt>Cache state</dt><dd>0.0%</dd><dt>Referer</dt><dd>33.3%</dd><dt>Robots checked</dt><dd>0.0%</dd><dt>Rate model</dt><dd>100.0%</dd></dl>
+</section>
+<section aria-labelledby="classes"><h2 id="classes">Traffic classes</h2><table><caption>Requests by deterministic primary class</caption><thead><tr><th scope="col">Class</th><th scope="col">Requests</th><th scope="col">Bytes</th></tr></thead><tbody><tr><th scope="row">claimed_ai_crawler</th><td>1</td><td>1.2 KiB</td></tr><tr><th scope="row">claimed_search_crawler</th><td>1</td><td>80 B</td></tr><tr><th scope="row">security_probe</th><td>1</td><td>321 B</td></tr></tbody></table></section>
+<section aria-labelledby="crawlers"><h2 id="crawlers">Claimed crawlers</h2><table><caption>User-Agent catalog matches</caption><thead><tr><th scope="col">Claim</th><th scope="col">Category</th><th scope="col">Requests</th></tr></thead><tbody><tr><th scope="row">GPTBot</th><td>claimed_ai_crawler</td><td>1</td></tr><tr><th scope="row">Googlebot</th><td>claimed_search_crawler</td><td>1</td></tr></tbody></table></section>
+<section aria-labelledby="findings"><h2 id="findings">Findings and evidence</h2><article><h3>Security probe traffic under /wp-admin/login</h3><p><span class="severity">low</span> — Observed 1 requests matching the wp-login-scan aggregate signature.</p><ul><li>requests: 1 (threshold 1 count)</li></ul></article><article><h3>Metric unavailable: cache_state</h3><p><span class="severity">info</span> — This input format did not provide cache_state values.</p><ul></ul></article><article><h3>Metric unavailable: request_duration</h3><p><span class="severity">info</span> — This input format did not provide request_duration values.</p><ul></ul></article><article><h3>Metric unavailable: upstream_duration</h3><p><span class="severity">info</span> — This input format did not provide upstream_duration values.</p><ul></ul></article></section>
+<section aria-labelledby="routes"><h2 id="routes">Top routes</h2><table><caption>Normalized routes</caption><thead><tr><th scope="col">Route</th><th scope="col">Requests</th><th scope="col">Bytes</th></tr></thead><tbody><tr><th scope="row"><code>/archive</code></th><td>1</td><td>1.2 KiB</td></tr><tr><th scope="row"><code>/robots.txt</code></th><td>1</td><td>80 B</td></tr><tr><th scope="row"><code>/wp-admin/login</code></th><td>1</td><td>321 B</td></tr></tbody></table></section>
+<section aria-labelledby="cost"><h2 id="cost">Origin and cost allocation</h2><dl><dt>Egress</dt><dd>Not available</dd><dt>Allocated hosting</dt><dd>Not available</dd><dt>Total allocated</dt><dd>Not available</dd></dl><p>Allocations are proportional historical estimates, not invoices or guaranteed savings.</p></section>
+<section aria-labelledby="policy"><h2 id="policy">Policy workflow instructions</h2><p>Create a reviewed policy JSON, run <code>crawlledger policy simulate</code>, inspect every risk, then render a draft. CrawlLedger never applies or reloads server configuration.</p></section>
+<section aria-labelledby="privacy"><h2 id="privacy">Privacy and methodology</h2><p>Crawler identity is claimed from User-Agent and is not DNS-verified.</p><p>Sanitized identifiers remain linkable within one HMAC key scope.</p><p>Allocated cost is proportional attribution, not an invoice or guaranteed saving.</p><p>Stable pseudonyms, timestamps, routes, crawler claims and referer hosts retain correlation and re-identification risk.</p></section>
+<section aria-labelledby="warnings"><h2 id="warnings">Warnings and degraded analysis</h2><p class="warning">cost_not_configured</p></section>
+</main>
+<footer><p>Generated by CrawlLedger dev with catalog ai-robots-txt:a0fed45f0eb6723597028b49d5e0990dd4c41920&#43;crawlledger-v1. Drafts require manual validation and deployment.</p></footer>
+</body>
+</html>

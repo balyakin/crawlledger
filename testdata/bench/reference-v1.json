@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "generator": "crawlledger-synthetic-v1",
+  "seed": 20260724,
+  "target_uncompressed_bytes": 10737418240,
+  "formats": ["nginx-combined", "nginx-json", "caddy-json"],
+  "routes": 50000,
+  "user_agents": 100000,
+  "rate_subjects": 100000,
+  "corpus": "generated-not-committed"
+}

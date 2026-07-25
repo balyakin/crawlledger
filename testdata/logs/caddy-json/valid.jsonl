@@ -1,0 +1,2 @@
+{"ts":1784877072.125,"request":{"remote_ip":"192.0.2.10","method":"GET","uri":"/archive?page=42","headers":{"User-Agent":["GPTBot/1.0"],"Referer":[]}},"status":200,"size":1234,"duration":0.12}
+{"ts":1784877132.500,"request":{"remote_ip":"2001:db8::20","method":"GET","uri":"/index","headers":{"User-Agent":["Googlebot/2.1"],"Referer":["https://docs.example/"]}},"status":200,"size":99,"duration":0.01}

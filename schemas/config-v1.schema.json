@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crawlledger:schema:config:v1",
+  "title": "CrawlLedger config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "limits", "thresholds", "costs"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_line_bytes", "max_uncompressed_bytes", "max_gzip_ratio", "max_routes", "max_user_agents", "max_rate_subjects", "max_batch_cells", "max_saved_parse_errors"],
+      "properties": {
+        "max_line_bytes": {"type": "integer", "minimum": 4096, "maximum": 16777216},
+        "max_uncompressed_bytes": {"type": "integer", "minimum": 1048576, "maximum": 1099511627776},
+        "max_gzip_ratio": {"type": "integer", "minimum": 1, "maximum": 1000},
+        "max_routes": {"type": "integer", "minimum": 100, "maximum": 200000},
+        "max_user_agents": {"type": "integer", "minimum": 100, "maximum": 500000},
+        "max_rate_subjects": {"type": "integer", "minimum": 1000, "maximum": 1000000},
+        "max_batch_cells": {"type": "integer", "minimum": 100, "maximum": 100000},
+        "max_saved_parse_errors": {"type": "integer", "minimum": 0, "maximum": 10000}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["crawltrap_min_requests", "crawltrap_min_url_variants", "crawltrap_variant_ratio_ppm", "query_min_requests", "query_min_variants", "query_variant_ratio_ppm", "expensive_404_min_requests", "expensive_404_ratio_ppm", "expensive_404_min_upstream_us", "cache_bust_min_requests", "cache_bust_miss_ratio_ppm", "automation_min_requests", "automation_min_routes", "automation_4xx_ratio_ppm", "automation_no_referer_ratio_ppm", "automation_min_probes", "automation_score_threshold"],
+      "properties": {
+        "crawltrap_min_requests": {"$ref": "#/$defs/positive"},
+        "crawltrap_min_url_variants": {"$ref": "#/$defs/positive"},
+        "crawltrap_variant_ratio_ppm": {"$ref": "#/$defs/ppm"},
+        "query_min_requests": {"$ref": "#/$defs/positive"},
+        "query_min_variants": {"$ref": "#/$defs/positive"},
+        "query_variant_ratio_ppm": {"$ref": "#/$defs/ppm"},
+        "expensive_404_min_requests": {"$ref": "#/$defs/positive"},
+        "expensive_404_ratio_ppm": {"$ref": "#/$defs/ppm"},
+        "expensive_404_min_upstream_us": {"$ref": "#/$defs/positive"},
+        "cache_bust_min_requests": {"$ref": "#/$defs/positive"},
+        "cache_bust_miss_ratio_ppm": {"$ref": "#/$defs/ppm"},
+        "automation_min_requests": {"$ref": "#/$defs/positive"},
+        "automation_min_routes": {"$ref": "#/$defs/positive"},
+        "automation_4xx_ratio_ppm": {"$ref": "#/$defs/ppm"},
+        "automation_no_referer_ratio_ppm": {"$ref": "#/$defs/ppm"},
+        "automation_min_probes": {"$ref": "#/$defs/positive"},
+        "automation_score_threshold": {"type": "integer", "minimum": 1, "maximum": 10}
+      }
+    },
+    "costs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["monthly_hosting_kopecks", "egress_kopecks_per_gib"],
+      "properties": {
+        "monthly_hosting_kopecks": {"type": "integer", "minimum": 0, "maximum": 10000000000},
+        "egress_kopecks_per_gib": {"type": "integer", "minimum": 0, "maximum": 10000000000}
+      }
+    }
+  },
+  "$defs": {
+    "positive": {"type": "integer", "minimum": 1},
+    "ppm": {"type": "integer", "minimum": 0, "maximum": 1000000}
+  }
+}

@@ -1,0 +1,5 @@
+User-agent: GPTBot
+Disallow: /private/
+
+User-agent: *
+Disallow: /synthetic-blocked/

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:crawlledger:schema:sanitized-event:v1",
+  "title": "CrawlLedger sanitized event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "timestamp", "client_key", "method", "route", "actionable_prefix", "url_fingerprint", "query_keys", "query_fingerprint", "status", "bytes_sent", "request_duration_us", "upstream_duration_us", "cache_state", "ua_hash", "claimed_crawler", "claimed_category", "claimed_protected_default", "referer_host", "security_probe_ids", "robots_allowed"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "client_key": {"$ref": "#/$defs/hex32"},
+    "method": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{0,15}$"},
+    "route": {"type": "string", "minLength": 1, "maxLength": 512, "pattern": "^/"},
+    "actionable_prefix": {"type": ["string", "null"], "minLength": 1, "maxLength": 256, "pattern": "^/"},
+    "url_fingerprint": {"$ref": "#/$defs/hex32"},
+    "query_keys": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 80}},
+    "query_fingerprint": {"anyOf": [{"$ref": "#/$defs/hex32"}, {"type": "null"}]},
+    "status": {"type": "integer", "minimum": 100, "maximum": 599},
+    "bytes_sent": {"type": "integer", "minimum": 0},
+    "request_duration_us": {"$ref": "#/$defs/nonnegativeNullable"},
+    "upstream_duration_us": {"$ref": "#/$defs/nonnegativeNullable"},
+    "cache_state": {"enum": ["hit", "miss", "bypass", "expired", "stale", "unknown"]},
+    "ua_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "claimed_crawler": {"type": ["string", "null"], "minLength": 1, "maxLength": 128},
+    "claimed_category": {"type": ["string", "null"], "enum": ["claimed_ai_crawler", "claimed_search_crawler", "claimed_other_crawler", null]},
+    "claimed_protected_default": {"type": ["boolean", "null"]},
+    "referer_host": {"type": ["string", "null"], "minLength": 1, "maxLength": 253},
+    "security_probe_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+    "robots_allowed": {"type": ["boolean", "null"]}
+  },
+  "$defs": {
+    "hex32": {"type": "string", "pattern": "^[0-9a-f]{32}$"},
+    "nonnegativeNullable": {"type": ["integer", "null"], "minimum": 0}
+  }
+}

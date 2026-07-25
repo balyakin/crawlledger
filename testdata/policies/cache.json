@@ -1,0 +1,1 @@
+{"schema_version":1,"name":"cache","description":"Synthetic analysis-only cache estimate.","rules":[{"id":"cache-archive","match":{"crawler_names":[],"categories":[],"path_prefixes":["/archive"],"methods":["GET","HEAD"]},"action":{"kind":"cache","rate_profile":null,"cache_ttl_seconds":300}}]}

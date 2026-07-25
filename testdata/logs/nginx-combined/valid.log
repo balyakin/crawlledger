@@ -1,0 +1,4 @@
+192.0.2.10 - - [24/Jul/2026:10:11:12 +0300] "GET /archive?page=42 HTTP/1.1" 200 1234 "-" "GPTBot/1.0"
+198.51.100.20 - - [24/Jul/2026:10:12:12 +0300] "GET /robots.txt HTTP/1.1" 200 80 "https://docs.example/start" "Googlebot/2.1"
+
+203.0.113.30 - - [24/Jul/2026:10:13:12 +0300] "GET /wp-admin/login HTTP/1.1" 404 321 "-" "SyntheticBrowser/1.0"

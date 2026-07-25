@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "generator": "crawlledger-synthetic-v1",
+  "seed": 20260725,
+  "routes": 50000,
+  "user_agents": 100000,
+  "rate_subjects": 100000,
+  "batch_cells": 50000,
+  "corpus": "generated-not-committed"
+}

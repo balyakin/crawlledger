@@ -1,0 +1,1 @@
+{"schema_version":1,"name":"rate","description":"Synthetic Nginx rate policy.","rules":[{"id":"rate-ai","match":{"crawler_names":[],"categories":["claimed_ai_crawler"],"path_prefixes":[],"methods":[]},"action":{"kind":"rate_limit","rate_profile":"standard","cache_ttl_seconds":null}}]}

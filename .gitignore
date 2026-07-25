@@ -1,0 +1,6 @@
+/bin/
+/.crawlledger-*
+/benchmark-corpus/
+.DS_Store
+*.tmp
+*.out

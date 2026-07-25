@@ -1,0 +1,1 @@
+{"schema_version":1,"name":"invalid","description":"Synthetic invalid policy.","rules":[{"id":"bad","match":{"crawler_names":null,"categories":[],"path_prefixes":[],"methods":[]},"action":{"kind":"deny","rate_profile":null,"cache_ttl_seconds":null}}]}
