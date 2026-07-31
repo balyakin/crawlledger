@@ -5,9 +5,11 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"log/slog"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 	"time"
 
@@ -59,14 +61,35 @@ func TestProtectRunDryRunNeverTouchesMutationPaths(t *testing.T) {
 		StaticDeny: protect.StaticDeny{Enabled: []string{}},
 	})
 	var logs bytes.Buffer
-	service = New(bytes.NewReader(nil), logging.NewJSON(&logs, slog.LevelInfo), version.Current())
+	ready := make(chan struct{})
+	candidate := make(chan struct{})
+	var readyOnce sync.Once
+	var candidateOnce sync.Once
+	observer := testWriterFunc(func(data []byte) (int, error) {
+		if bytes.Contains(data, []byte(`"event":"protect_detection_suspended"`)) {
+			readyOnce.Do(func() { close(ready) })
+		}
+		if bytes.Contains(data, []byte(`"event":"protect_candidate"`)) {
+			candidateOnce.Do(func() { close(candidate) })
+		}
+		return len(data), nil
+	})
+	service = New(bytes.NewReader(nil), logging.NewJSON(io.MultiWriter(&logs, observer), slog.LevelInfo), version.Current())
 	ctx, cancel := context.WithCancel(context.Background())
 	done := make(chan error, 1)
 	go func() {
 		_, runErr := service.ProtectRun(ctx, ProtectRunRequest{ConfigPath: configPath})
 		done <- runErr
 	}()
-	time.Sleep(50 * time.Millisecond)
+	select {
+	case <-ready:
+	case runErr := <-done:
+		t.Fatalf("dry run stopped before following the log: %v", runErr)
+	case <-time.After(3 * time.Second):
+		cancel()
+		<-done
+		t.Fatal("dry run did not start following the log")
+	}
 	line, err := json.Marshal(map[string]string{
 		"timestamp":              time.Now().UTC().Format(time.RFC3339Nano),
 		"remote_addr":            "192.0.2.99",
@@ -89,7 +112,15 @@ func TestProtectRunDryRunNeverTouchesMutationPaths(t *testing.T) {
 	if err := os.WriteFile(logPath, line, 0o600); err != nil {
 		t.Fatal(err)
 	}
-	time.Sleep(1200 * time.Millisecond)
+	select {
+	case <-candidate:
+	case runErr := <-done:
+		t.Fatalf("dry run stopped before detecting a candidate: %v", runErr)
+	case <-time.After(3 * time.Second):
+		cancel()
+		<-done
+		t.Fatalf("dry run did not emit a candidate: %s", logs.String())
+	}
 	cancel()
 	select {
 	case err := <-done:
@@ -119,6 +150,12 @@ func TestProtectRunDryRunNeverTouchesMutationPaths(t *testing.T) {
 			t.Fatalf("structured protection event leaked %q: %s", secret, logText)
 		}
 	}
+}
+
+type testWriterFunc func([]byte) (int, error)
+
+func (write testWriterFunc) Write(data []byte) (int, error) {
+	return write(data)
 }
 
 func writeProtectionConfig(t *testing.T, config protect.Config) string {
