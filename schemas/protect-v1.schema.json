@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crawlledger.example/schemas/protect-v1.schema.json",
+  "title": "CrawlLedger emergency protection configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "site",
+    "log_path",
+    "baseline_workspace",
+    "nginx",
+    "runtime",
+    "detection",
+    "action",
+    "exclusions",
+    "static_deny"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "site": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$"},
+    "log_path": {"type": "string", "minLength": 1},
+    "baseline_workspace": {"type": "string", "minLength": 1},
+    "nginx": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binary", "config_path", "managed_dir"],
+      "properties": {
+        "binary": {"type": "string", "minLength": 1},
+        "config_path": {"type": "string", "minLength": 1},
+        "managed_dir": {"type": "string", "minLength": 1}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_file", "max_log_line_bytes"],
+      "properties": {
+        "state_file": {"type": "string", "minLength": 1},
+        "max_log_line_bytes": {"type": "integer", "minimum": 4096, "maximum": 16777216}
+      }
+    },
+    "detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window_seconds",
+        "evaluation_interval_seconds",
+        "required_consecutive_evaluations",
+        "max_event_lag_seconds",
+        "baseline_multiplier",
+        "volume_min_requests",
+        "volume_min_site_share_ppm",
+        "distributed_min_requests",
+        "distributed_min_clients",
+        "distributed_min_client_ratio_ppm",
+        "distributed_min_upstream_coverage_ppm",
+        "distributed_min_upstream_us",
+        "distributed_min_average_upstream_us",
+        "max_tracked_groups"
+      ],
+      "properties": {
+        "window_seconds": {"type": "integer", "minimum": 10, "maximum": 300},
+        "evaluation_interval_seconds": {"type": "integer", "minimum": 1, "maximum": 60},
+        "required_consecutive_evaluations": {"type": "integer", "minimum": 1, "maximum": 6},
+        "max_event_lag_seconds": {"type": "integer", "minimum": 30, "maximum": 3600},
+        "baseline_multiplier": {"type": "integer", "minimum": 2, "maximum": 100},
+        "volume_min_requests": {"type": "integer", "minimum": 1, "maximum": 10000000},
+        "volume_min_site_share_ppm": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "distributed_min_requests": {"type": "integer", "minimum": 1, "maximum": 10000000},
+        "distributed_min_clients": {"type": "integer", "minimum": 1, "maximum": 10000000},
+        "distributed_min_client_ratio_ppm": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "distributed_min_upstream_coverage_ppm": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "distributed_min_upstream_us": {"type": "integer", "minimum": 1, "maximum": 86400000000},
+        "distributed_min_average_upstream_us": {"type": "integer", "minimum": 1, "maximum": 60000000},
+        "max_tracked_groups": {"type": "integer", "minimum": 100, "maximum": 100000}
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ttl_seconds",
+        "rate_requests_per_second",
+        "burst",
+        "max_active_rules",
+        "min_reload_interval_seconds"
+      ],
+      "properties": {
+        "ttl_seconds": {"type": "integer", "minimum": 60, "maximum": 86400},
+        "rate_requests_per_second": {"type": "integer", "minimum": 1, "maximum": 10000},
+        "burst": {"type": "integer", "minimum": 0, "maximum": 100000},
+        "max_active_rules": {"type": "integer", "minimum": 1, "maximum": 128},
+        "min_reload_interval_seconds": {"type": "integer", "minimum": 1, "maximum": 60}
+      }
+    },
+    "exclusions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["methods", "path_prefixes"],
+      "properties": {
+        "methods": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{0,15}$"}
+        },
+        "path_prefixes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^/"}
+        }
+      }
+    },
+    "static_deny": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "env-file-scan",
+              "git-metadata-scan",
+              "log4shell-probe",
+              "path-traversal-scan",
+              "phpmyadmin-scan",
+              "shell-probe",
+              "wp-login-scan"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

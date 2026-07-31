@@ -1,0 +1,22 @@
+[Unit]
+Description=CrawlLedger emergency protection for %i
+After=network.target nginx.service
+Requires=nginx.service
+
+[Service]
+Type=simple
+User=crawlledger
+Group=crawlledger
+ExecStart=/usr/local/sbin/crawlledger protect run --apply --config /etc/crawlledger/%i-protect.json
+Restart=always
+RestartSec=5s
+TimeoutStopSec=60s
+UMask=0077
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadOnlyPaths=/var/log/nginx
+ReadWritePaths=/var/lib/crawlledger /etc/nginx/crawlledger
+
+[Install]
+WantedBy=multi-user.target

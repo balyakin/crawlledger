@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"os"
+	"runtime"
 	"testing"
 )
 
@@ -87,5 +88,59 @@ func TestPanicCleansTemporaryFile(t *testing.T) {
 	}
 	if len(entries) != 0 {
 		t.Fatalf("panic left files: %v", entries)
+	}
+}
+
+func TestReplaceAtomicallyReplacesExistingFile(t *testing.T) {
+	directory := t.TempDir()
+	root, err := os.OpenRoot(directory)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer root.Close()
+	if err := os.WriteFile(directory+"/state.json", []byte("old"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := Replace(context.Background(), root, "state.json", 0o600, []byte("complete\n")); err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(directory + "/state.json")
+	if err != nil || string(data) != "complete\n" {
+		t.Fatalf("bad replacement: %q %v", data, err)
+	}
+	info, err := os.Stat(directory + "/state.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if runtime.GOOS != "windows" && info.Mode().Perm() != 0o600 {
+		t.Fatalf("replacement mode = %o", info.Mode().Perm())
+	}
+	entries, err := os.ReadDir(directory)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 1 {
+		t.Fatalf("temporary file remains: %v", entries)
+	}
+}
+
+func TestReplaceFailurePreservesExistingFile(t *testing.T) {
+	directory := t.TempDir()
+	root, err := os.OpenRoot(directory)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer root.Close()
+	if err := os.WriteFile(directory+"/state.json", []byte("old"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if err := Replace(ctx, root, "state.json", 0o600, []byte("new")); !errors.Is(err, context.Canceled) {
+		t.Fatalf("replacement returned %v", err)
+	}
+	data, err := os.ReadFile(directory + "/state.json")
+	if err != nil || string(data) != "old" {
+		t.Fatalf("failed replacement changed target: %q %v", data, err)
 	}
 }

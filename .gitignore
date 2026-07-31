@@ -1,6 +1,7 @@
 /bin/
 /.crawlledger-*
 /benchmark-corpus/
+/docs/specs/emergency-protection/SPEC.md
 .DS_Store
 *.tmp
 *.out

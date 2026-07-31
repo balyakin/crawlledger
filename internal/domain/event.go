@@ -167,6 +167,10 @@ func ValidProbeID(value string) bool {
 	}
 }
 
+func ValidMethod(value string) bool { return validMethod(value) }
+
+func ValidActionable(value string) bool { return validActionable(value) }
+
 func validHostname(value string) bool {
 	if !validText(value, 1, 253) || value != strings.ToLower(value) {
 		return false

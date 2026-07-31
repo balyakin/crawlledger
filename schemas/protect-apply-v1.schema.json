@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crawlledger.example/schemas/protect-apply-v1.schema.json",
+  "title": "CrawlLedger privileged protection apply payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "site", "rules"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "site": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$"},
+    "rules": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["method", "path_prefix"],
+        "properties": {
+          "method": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{0,15}$"},
+          "path_prefix": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^/"}
+        }
+      }
+    }
+  }
+}

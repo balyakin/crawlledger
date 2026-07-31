@@ -1,4 +1,5 @@
 GO ?= go
+FUZZ_PARALLEL ?= 4
 BINARY := crawlledger
 VERSION ?= dev
 COMMIT ?= unknown
@@ -26,14 +27,18 @@ test-race:
 	CGO_ENABLED=1 $(GO) test -race -count=1 ./...
 
 fuzz-smoke:
-	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzNginxCombined -fuzztime=10s
-	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzNginxJSON -fuzztime=10s
-	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzCaddyJSON -fuzztime=10s
-	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzCanonicalJSON -fuzztime=10s
-	$(GO) test ./internal/normalize -run=^$$ -fuzz=FuzzNormalizePath -fuzztime=10s
-	$(GO) test ./internal/normalize -run=^$$ -fuzz=FuzzNormalizeQuery -fuzztime=10s
-	$(GO) test ./internal/policy -run=^$$ -fuzz=FuzzPolicyLoad -fuzztime=10s
-	$(GO) test ./internal/aggregate -run=^$$ -fuzz=FuzzKMVDecode -fuzztime=10s
+	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzNginxCombined -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzNginxJSON -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzCaddyJSON -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzCanonicalJSON -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/parser -run=^$$ -fuzz=FuzzNginxProtection -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/normalize -run=^$$ -fuzz=FuzzNormalizePath -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/normalize -run=^$$ -fuzz=FuzzNormalizeQuery -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/policy -run=^$$ -fuzz=FuzzPolicyLoad -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/aggregate -run=^$$ -fuzz=FuzzKMVDecode -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/protect -run=^$$ -fuzz=FuzzProtectionConfig -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/protect -run=^$$ -fuzz=FuzzProtectionState -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
+	$(GO) test ./internal/protect -run=^$$ -fuzz=FuzzProtectionApplyPayload -fuzztime=10s -parallel=$(FUZZ_PARALLEL)
 
 build:
 	mkdir -p bin

@@ -91,6 +91,14 @@ func FuzzCanonicalJSON(f *testing.F) {
 	f.Fuzz(func(t *testing.T, line string) { assertSafeParse(t, FormatCrawlLedgerJSON, line) })
 }
 
+func FuzzNginxProtection(f *testing.F) {
+	f.Add([]byte(`{"timestamp":"2026-07-24T07:11:12Z","remote_addr":"192.0.2.10","method":"GET","uri":"/api","nginx_uri":"/api","status":"200","limit_req_status":"PASSED","bytes_sent":"1"}`))
+	f.Add([]byte(`{}`))
+	f.Fuzz(func(t *testing.T, data []byte) {
+		_, _, _ = ParseNginxProtection(data)
+	})
+}
+
 func assertSafeParse(t *testing.T, format Format, line string) {
 	t.Helper()
 	value, _ := New(format)

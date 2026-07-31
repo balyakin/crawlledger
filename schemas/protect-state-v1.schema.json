@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://crawlledger.example/schemas/protect-state-v1.schema.json",
+  "title": "CrawlLedger emergency protection state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "site",
+    "config_sha256",
+    "baseline_manifest_sha256",
+    "rules"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "site": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$"},
+    "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "baseline_manifest_sha256": {
+      "oneOf": [
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        {"type": "null"}
+      ]
+    },
+    "rules": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "method",
+          "path_prefix",
+          "reasons",
+          "request_threshold",
+          "first_qualified_at_us",
+          "last_qualified_at_us",
+          "expires_at_us"
+        ],
+        "properties": {
+          "method": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]{0,15}$"},
+          "path_prefix": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^/"},
+          "reasons": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {"enum": ["distributed-expense", "extreme-volume"]}
+          },
+          "request_threshold": {"type": "integer", "minimum": 1},
+          "first_qualified_at_us": {"type": "integer", "minimum": 1},
+          "last_qualified_at_us": {"type": "integer", "minimum": 1},
+          "expires_at_us": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

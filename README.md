@@ -17,13 +17,14 @@ something you can reason about: which claimed crawlers arrived, where they
 wandered, how much origin work followed, whether they fell into a crawl trap,
 and what a deny or rate-limit policy would have changed.
 
-Everything stays local. The result is a self-contained HTML report, a
-machine-readable JSON report and—only after a separate simulation—reviewable
-server-configuration fragments. No telemetry. No daemon. Nothing in the
-request path, and no command that quietly rewrites a live server.
+Everything stays local. The main workflow produces a self-contained HTML
+report, machine-readable JSON and—only after a separate simulation—reviewable
+server-configuration fragments. An experimental, explicitly enabled Nginx
+watcher can also install static probe blocks and temporary emergency rate
+limits. It is off by default; dry-run is the default even when invoked.
 
 CI checks formatting, runs `go vet`, and tests on Go 1.26.5 across Ubuntu,
-macOS and Windows. It also runs the race detector, eight fuzz smoke targets,
+macOS and Windows. It also runs the race detector, twelve fuzz smoke targets,
 validates generated Nginx and Caddy fragments, exercises analysis without a
 network namespace, cross-builds six pure-Go binaries, and checks schemas, docs
 and module integrity.
@@ -42,6 +43,8 @@ and module integrity.
   explosion, cache busting, security probes and `robots.txt` violations.
 - Historical policy simulation with ordered, first-match rules.
 - Nginx or Caddy configuration drafts. Drafts—not auto-applied changes.
+- Optional Nginx-only emergency protection: deterministic probe `403`s and a
+  temporary route-level `429` circuit breaker for very high-confidence floods.
 - Privacy-conscious storage; raw log lines are never written to the workspace.
 
 There is one hard boundary. A request labelled `Googlebot`, `GPTBot`, or
@@ -119,7 +122,9 @@ log_format crawlledger escape=json
   '"remote_addr":"$remote_addr",'
   '"method":"$request_method",'
   '"uri":"$request_uri",'
+  '"nginx_uri":"$uri",'
   '"status":"$status",'
+  '"limit_req_status":"$limit_req_status",'
   '"bytes_sent":"$body_bytes_sent",'
   '"request_time":"$request_time",'
   '"upstream_response_time":"$upstream_response_time",'
@@ -140,6 +145,12 @@ crawlledger analyze \
 ```
 
 </details>
+
+The complete field set above is required by `protect run`. The two
+protection-specific fields are harmless in ordinary offline analysis: `$uri`
+binds decisions to the path Nginx will actually enforce, and
+`$limit_req_status` distinguishes an application `429` from CrawlLedger's
+limiter.
 
 ### Inside the workspace
 
@@ -193,8 +204,10 @@ policy containing one remains simulation-only and cannot be rendered.
 
 ### Install a draft carefully
 
-Draft means draft. CrawlLedger never runs Nginx, Caddy, Docker, systemd, SSH,
-or a shell.
+Draft means draft. The `analyze`, `sanitize`, `policy simulate`, and
+`policy render` workflows never run Nginx, Caddy, Docker, systemd, SSH, or a
+shell. Only the separate, experimental `protect` command family described
+below has a privileged apply path.
 
 For Nginx, include `crawlledger-http.conf` inside `http {}` and
 `crawlledger-server.conf` inside the audited `server {}`, before the content
@@ -213,6 +226,99 @@ caddy validate --config Caddyfile
 
 Reload manually and watch responses as well as access logs. If validation or
 traffic turns strange, restore the backup and reload.
+
+## Experimental emergency protection for Nginx
+
+This is a narrow origin circuit breaker, not a WAF or a DDoS service. It has
+two actions:
+
+- configured, deterministic malicious probe signatures return `403`;
+- an extreme route surge or a distributed, expensive request shape can create
+  one temporary global route limiter. Requests within its configured rate
+  pass; excess requests receive `429`.
+
+The dynamic rule is keyed by HTTP method and safe path prefix—not IP or
+User-Agent—so a flood spread across thousands of addresses still shares one
+Nginx bucket. That is also the main trade-off: legitimate requests above the
+emergency rate receive `429` while the rule is active. Default rule lifetime
+is a sliding ten minutes, and detection takes roughly a minute at default
+thresholds. Use upstream/CDN protection for network saturation or subsecond
+response.
+
+Requirements:
+
+- Linux for `setup`, `clear`, `run --apply`, and the privileged `apply` child;
+  dry-run works on Linux, macOS, and Windows;
+- Nginx only;
+- a dedicated JSON access log with the two fields shown above;
+- an integrity-verified, completed `nginx-json` workspace containing at least
+  1,440 complete minutes with no route overflow. Seven representative days is
+  better;
+- a dedicated non-root service account and a root-owned CrawlLedger binary,
+  config, Nginx binary, and managed directory.
+
+Start from [the complete example config](docs/examples/crawlledger-protect.json).
+Install a root-owned copy; a user-owned `go install` binary is deliberately
+rejected by live mode because sudoers authorizes the exact executable:
+
+```sh
+sudo install -o root -g root -m 0755 ./bin/crawlledger /usr/local/sbin/crawlledger
+sudo install -d -o root -g root -m 0755 /etc/crawlledger
+sudo install -o root -g root -m 0644 \
+  docs/examples/crawlledger-protect.json /etc/crawlledger/example-protect.json
+sudo install -d -o crawlledger -g crawlledger -m 0700 /var/lib/crawlledger/example
+```
+
+Run setup as root. It creates locked managed files, runs `nginx -T`,
+`nginx -t`, and reloads with rollback. It does not edit `nginx.conf`, sudoers,
+or systemd:
+
+```sh
+sudo /usr/local/sbin/crawlledger protect setup \
+  --config /etc/crawlledger/example-protect.json
+```
+
+Manually include the reported HTTP fragment once inside `http {}` and the
+server fragment once inside the intended `server {}`. Run setup again so its
+expanded-config check sees each marker exactly once. Inspect every nested
+`location`: a location-level `limit_req` directive replaces inherited
+server-level limiters under native Nginx rules. The synthetic
+[Nginx fixture](testdata/protect/nginx/README.md) demonstrates that shadowing.
+
+Observe before enforcing:
+
+```sh
+sudo -u crawlledger /usr/local/sbin/crawlledger protect run \
+  --config /etc/crawlledger/example-protect.json
+```
+
+Dry-run reads neither persistent protection state nor locks and never invokes
+Nginx or sudo. Review the structured `protect_candidate` events and tune the
+explicit floors, historical multiplier, exclusions, rate, burst, and TTL.
+
+To enable live temporary `429`s, install an exact sudoers grant based on
+[the example](docs/examples/crawlledger-protect.sudoers), then add `--apply`.
+The long-running process remains unprivileged. It persists a tiny desired-state
+file first and sends only method/path pairs to the root child. That child
+revalidates the root-owned config and state, checks both locks, runs
+`nginx -T` and `nginx -t`, reloads, and restores the exact previous map if a
+step fails. It never receives client addresses or detector evidence.
+
+The optional [systemd template](docs/examples/crawlledger-protect@.service)
+shows the same boundary. Stop sends `SIGTERM`; the watcher attempts a bounded
+graceful clear. After a crash or failed stop, clear explicitly as the service
+account:
+
+```sh
+sudo -u crawlledger /usr/local/sbin/crawlledger protect clear \
+  --config /etc/crawlledger/example-protect.json
+```
+
+Static `403` signatures remain installed after the watcher stops. The default
+set covers `.env`, `.git`, raw or once-encoded traversal segments, and raw
+Log4Shell `${jndi:` probes. Optional WordPress, phpMyAdmin, and shell-path
+signatures stay disabled unless you name them in the config because those
+paths may be legitimate.
 
 ## Share a sanitized evidence bundle
 
@@ -250,7 +356,12 @@ configuration as sensitive files.
 
 - Claimed crawler identity is spoofable. CrawlLedger audits traffic; it does
   not authenticate bots.
-- Analysis is batch-based. There is no live protection.
+- Offline analysis remains batch-based. Experimental live protection is
+  Nginx-only, opt-in, and intentionally limited to very high-confidence route
+  floods and explicit static signatures.
+- The emergency limiter does not protect bandwidth, TLS, connection tables,
+  attacks that stop log delivery, arbitrary low-rate path fragmentation, or
+  application routes hidden behind path-changing rewrites.
 - Combined Nginx and standard Caddy logs cannot expose every origin or cache
   metric. Reports show the holes instead of filling them with guesses.
 - Cost figures are proportional allocations driven by your configuration,

@@ -77,3 +77,36 @@ type RenderResult struct {
 	Output string
 	Files  int
 }
+
+type ProtectRunRequest struct {
+	ConfigPath string
+	Apply      bool
+}
+
+type ProtectRunResult struct {
+	Mode             string
+	CompleteMinutes  int64
+	BaselineEligible bool
+}
+
+type ProtectSetupRequest struct {
+	ConfigPath string
+}
+
+type ProtectSetupResult struct {
+	HTTPInclude    string
+	ServerInclude  string
+	Executable     string
+	ConfigPath     string
+	ServiceUser    string
+	ServiceGroup   string
+	IncludesActive bool
+}
+
+type ProtectClearRequest struct {
+	ConfigPath string
+}
+
+type ProtectApplyRequest struct {
+	ConfigPath string
+}

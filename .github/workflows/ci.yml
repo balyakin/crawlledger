@@ -67,7 +67,7 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
           cache-dependency-path: go.sum
-      - name: Eight fuzz targets
+      - name: Twelve fuzz targets
         run: |
           set -euo pipefail
           make fuzz-smoke
@@ -82,17 +82,21 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
           cache-dependency-path: go.sum
-      - name: Eight ten-minute fuzz targets
+      - name: Twelve ten-minute fuzz targets
         run: |
           set -euo pipefail
-          go test ./internal/parser -run=^$ -fuzz=FuzzNginxCombined -fuzztime=10m
-          go test ./internal/parser -run=^$ -fuzz=FuzzNginxJSON -fuzztime=10m
-          go test ./internal/parser -run=^$ -fuzz=FuzzCaddyJSON -fuzztime=10m
-          go test ./internal/parser -run=^$ -fuzz=FuzzCanonicalJSON -fuzztime=10m
-          go test ./internal/normalize -run=^$ -fuzz=FuzzNormalizePath -fuzztime=10m
-          go test ./internal/normalize -run=^$ -fuzz=FuzzNormalizeQuery -fuzztime=10m
-          go test ./internal/policy -run=^$ -fuzz=FuzzPolicyLoad -fuzztime=10m
-          go test ./internal/aggregate -run=^$ -fuzz=FuzzKMVDecode -fuzztime=10m
+          go test ./internal/parser -run=^$ -fuzz=FuzzNginxCombined -fuzztime=10m -parallel=4
+          go test ./internal/parser -run=^$ -fuzz=FuzzNginxJSON -fuzztime=10m -parallel=4
+          go test ./internal/parser -run=^$ -fuzz=FuzzCaddyJSON -fuzztime=10m -parallel=4
+          go test ./internal/parser -run=^$ -fuzz=FuzzCanonicalJSON -fuzztime=10m -parallel=4
+          go test ./internal/parser -run=^$ -fuzz=FuzzNginxProtection -fuzztime=10m -parallel=4
+          go test ./internal/normalize -run=^$ -fuzz=FuzzNormalizePath -fuzztime=10m -parallel=4
+          go test ./internal/normalize -run=^$ -fuzz=FuzzNormalizeQuery -fuzztime=10m -parallel=4
+          go test ./internal/policy -run=^$ -fuzz=FuzzPolicyLoad -fuzztime=10m -parallel=4
+          go test ./internal/aggregate -run=^$ -fuzz=FuzzKMVDecode -fuzztime=10m -parallel=4
+          go test ./internal/protect -run=^$ -fuzz=FuzzProtectionConfig -fuzztime=10m -parallel=4
+          go test ./internal/protect -run=^$ -fuzz=FuzzProtectionState -fuzztime=10m -parallel=4
+          go test ./internal/protect -run=^$ -fuzz=FuzzProtectionApplyPayload -fuzztime=10m -parallel=4
 
   render-validation:
     runs-on: ubuntu-24.04
@@ -132,6 +136,72 @@ jobs:
           caddy adapt --config testdata/generated/caddy/Caddyfile \
             --adapter caddyfile --validate >/dev/null
           caddy validate --config testdata/generated/caddy/Caddyfile
+      - name: Validate and exercise emergency protection fragments
+        run: |
+          set -euo pipefail
+          fixture="$PWD/testdata/protect/nginx"
+          install -d /tmp/crawlledger-protect-www
+          printf 'ok\n' >/tmp/crawlledger-protect-www/ok.txt
+          cp "$fixture/crawlledger-active.map" /tmp/crawlledger-active.map
+          cp "$fixture/crawlledger-server.conf" /tmp/crawlledger-server.conf
+          printf '# CrawlLedger active map v1 site=example\n' >"$fixture/crawlledger-active.map"
+          nginx -t -c "$fixture/nginx.conf" -p "$fixture/"
+          cp /tmp/crawlledger-active.map "$fixture/crawlledger-active.map"
+          cp "$fixture/crawlledger-server-burst.conf" "$fixture/crawlledger-server.conf"
+          nginx -t -c "$fixture/nginx.conf" -p "$fixture/"
+          cp /tmp/crawlledger-server.conf "$fixture/crawlledger-server.conf"
+          nginx -t -c "$fixture/nginx.conf" -p "$fixture/"
+          nginx -c "$fixture/nginx.conf" -p "$fixture/"
+          stop_nginx() {
+            nginx -s quit -c "$fixture/nginx.conf" -p "$fixture/" >/dev/null 2>&1 || true
+          }
+          trap stop_nginx EXIT
+          sleep 0.2
+          status() {
+            curl --silent --output /dev/null --write-out '%{http_code}' --path-as-is --globoff \
+              "http://127.0.0.1:18081$1"
+          }
+          test "$(status '/.env')" = 403
+          test "$(status '/.git/config')" = 403
+          test "$(status '/a/../etc/passwd')" = 403
+          test "$(status '/a%2f..%2fetc/passwd')" = 403
+          test "$(status '/search?value=${jndi:ldap://192.0.2.1/a}')" = 403
+          test "$(status '/dotenv')" = 200
+          test "$(status '/.github/workflows')" = 200
+          test "$(status '/api/v1..2')" = 200
+          test "$(status '/wp-login.php')" = 200
+          test "$(status '/api/search')" = 200
+          test "$(status '/api/search/1')" = 429
+          test "$(status '/api/searching')" = 200
+          test "$(status '/api/search/admin')" = 200
+          test "$(status '/api/search/admin/1')" = 429
+          test "$(status '/slash')" = 200
+          test "$(status '/slash/item')" = 200
+          test "$(status '/slash/item/2')" = 429
+          test "$(status '/money$usd')" = 200
+          test "$(status '/money$usd/item')" = 429
+          for attempt in 1 2 3 4 5; do
+            test "$(status '/shadow/item')" = 200
+          done
+          sleep 1.2
+          test "$(status '/api/%73earch')" = 200
+          test "$(status '/api/%73earch/1')" = 429
+          sleep 1.2
+          test "$(status '/api/search?cache=bust-1')" = 200
+          test "$(status '/api/search?cache=bust-2')" = 429
+          stop_nginx
+          trap - EXIT
+          sleep 0.2
+          cp "$fixture/crawlledger-server-burst.conf" "$fixture/crawlledger-server.conf"
+          nginx -c "$fixture/nginx.conf" -p "$fixture/"
+          trap stop_nginx EXIT
+          sleep 0.2
+          test "$(status '/api/search')" = 200
+          test "$(status '/api/search/1')" = 200
+          test "$(status '/api/search/2')" = 200
+          test "$(status '/api/search/3')" = 429
+          stop_nginx
+          trap - EXIT
 
   offline:
     runs-on: ubuntu-24.04

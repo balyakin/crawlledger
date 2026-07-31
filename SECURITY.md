@@ -18,4 +18,30 @@ Treat raw access logs, IP addresses, query values, cookies, User-Agent strings, 
 
 ## Threat boundaries
 
-CrawlLedger validates untrusted files, limits resource use, normalizes before persistence, and never applies generated configuration. It cannot protect against a hostile local administrator, a compromised operating system, process-memory inspection, disclosure of the HMAC key, or replacement of unsigned artifacts before their manifest is verified.
+The offline `analyze`, `sanitize`, and `policy` workflows validate untrusted
+files, limit resource use, normalize before persistence, and never apply
+generated configuration.
+
+Experimental Nginx protection deliberately adds a separate privilege boundary.
+`protect run` is dry-run by default. In live mode an unprivileged watcher owns
+the private desired-state file and holds a root-created state lock. Its sudoers
+grant must permit only the exact root-owned CrawlLedger binary, `protect apply`,
+and one exact root-owned config path. The root child accepts only a bounded
+method/path projection that must equal the locked state; it never accepts raw
+logs, IP addresses, detector evidence, or arbitrary Nginx text. Managed files
+are root-owned, opened without symlinks on Linux, tested before reload, and
+restored on failure. Setup, sudoers, systemd, and Nginx includes are always
+installed manually.
+
+Protection is not a WAF, crawler authenticator, or network DDoS control. A
+route-level limiter can reject legitimate traffic above its emergency rate.
+It cannot protect bandwidth, connection tables, TLS, attacks that prevent log
+delivery, unrelated low-rate shapes, excluded paths, or dynamically rewritten
+paths. Incorrect Nginx real-IP configuration makes distinct-client estimates
+unreliable. Location-level `limit_req` directives can shadow the inherited
+server limiter.
+
+CrawlLedger cannot protect against a hostile local administrator, a
+compromised operating system, process-memory inspection, disclosure of an HMAC
+key, malicious Nginx configuration, or replacement of unsigned artifacts before
+their manifest is verified.

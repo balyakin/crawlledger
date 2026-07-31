@@ -36,9 +36,10 @@ Tests use Go's standard `testing` package. Behavior changes need the smallest
 runnable regression check that would fail if the behavior returned.
 
 Do not add stubs, disabled tests, placeholder implementations, telemetry,
-network calls, hidden commands, or auto-apply behavior. Avoid speculative
-interfaces and utility packages too; split code only when a second
-responsibility is already real.
+network calls, hidden commands, or implicit apply behavior. The experimental
+Nginx watcher must remain dry-run by default; only an explicit `--apply` may
+enter its documented privilege path. Avoid speculative interfaces and utility
+packages too; split code only when a second responsibility is already real.
 
 ## Fixture privacy
 
@@ -64,6 +65,15 @@ formats must update all of these together:
 
 SQLite changes require a new transactional migration and an updated
 `PRAGMA user_version`. Never edit a published migration.
+
+Protection changes must also keep the Go validators and three `protect-v1`
+schemas aligned, preserve canonical state/apply JSON and active-map bytes, and
+test both dry-run and Linux mutation boundaries. Run the protection fuzz
+targets and the pinned real-Nginx fixture after changing parsing, matching,
+rendering, locks, rollback, rate/burst behavior, or Nginx includes. Never add a
+second privileged command to the sudoers example; `setup` runs manually as
+root and `clear` runs as the service account through the existing locked
+`apply` child.
 
 ## Catalog updates
 

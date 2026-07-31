@@ -71,3 +71,40 @@ func TestCancellationAndUsage(t *testing.T) {
 		t.Fatalf("internal detail leaked: %s", stderr.String())
 	}
 }
+
+func TestProtectCommandContract(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	command := newRootCommand(version.Current(), &stdout, &stderr)
+	command.SetArgs([]string{"protect", "--help"})
+	if err := command.Execute(); err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{"setup", "run", "clear", "apply"} {
+		if !strings.Contains(stdout.String(), name) {
+			t.Fatalf("protect help is missing %q: %s", name, stdout.String())
+		}
+	}
+	stdout.Reset()
+	command = newRootCommand(version.Current(), &stdout, &stderr)
+	command.SetArgs([]string{"protect", "run", "--help"})
+	if err := command.Execute(); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(stdout.String(), "--apply") || !strings.Contains(stdout.String(), "dry-run") {
+		t.Fatalf("run help does not explain opt-in apply mode: %s", stdout.String())
+	}
+	for _, arguments := range [][]string{
+		{"protect", "setup"},
+		{"protect", "run"},
+		{"protect", "clear"},
+		{"protect", "apply"},
+		{"protect", "run", "extra", "--config", "/tmp/config.json"},
+	} {
+		stderr.Reset()
+		command = newRootCommand(version.Current(), &stdout, &stderr)
+		command.SetArgs(arguments)
+		if code := executeCommand(command, &stderr); code != 2 {
+			t.Fatalf("%v exit = %d, want 2: %s", arguments, code, stderr.String())
+		}
+	}
+}

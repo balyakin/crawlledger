@@ -1,0 +1,2 @@
+# Replace the service user and config path for each site. Keep this command argument list exact.
+crawlledger ALL=(root) NOPASSWD: /usr/local/sbin/crawlledger protect apply --config /etc/crawlledger/example-protect.json

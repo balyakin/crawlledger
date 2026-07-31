@@ -50,6 +50,7 @@ func newRootCommand(info version.Info, stdout, stderr io.Writer) *cobra.Command 
 		newAnalyzeCommand(stdout, stderr),
 		newSanitizeCommand(stdout, stderr),
 		newPolicyCommand(stdout, stderr),
+		newProtectCommand(stdout, stderr),
 		newVersionCommand(info, stdout),
 	)
 	return cmd

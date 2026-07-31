@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "site": "example",
+  "log_path": "/var/log/nginx/access.crawlledger.json",
+  "baseline_workspace": "/var/lib/crawlledger/example-baseline",
+  "nginx": {
+    "binary": "/usr/sbin/nginx",
+    "config_path": "/etc/nginx/nginx.conf",
+    "managed_dir": "/etc/nginx/crawlledger/example"
+  },
+  "runtime": {
+    "state_file": "/var/lib/crawlledger/example/state.json",
+    "max_log_line_bytes": 1048576
+  },
+  "detection": {
+    "window_seconds": 60,
+    "evaluation_interval_seconds": 10,
+    "required_consecutive_evaluations": 2,
+    "max_event_lag_seconds": 120,
+    "baseline_multiplier": 10,
+    "volume_min_requests": 1200,
+    "volume_min_site_share_ppm": 500000,
+    "distributed_min_requests": 1000,
+    "distributed_min_clients": 500,
+    "distributed_min_client_ratio_ppm": 500000,
+    "distributed_min_upstream_coverage_ppm": 800000,
+    "distributed_min_upstream_us": 120000000,
+    "distributed_min_average_upstream_us": 250000,
+    "max_tracked_groups": 10000
+  },
+  "action": {
+    "ttl_seconds": 600,
+    "rate_requests_per_second": 10,
+    "burst": 20,
+    "max_active_rules": 16,
+    "min_reload_interval_seconds": 10
+  },
+  "exclusions": {
+    "methods": [],
+    "path_prefixes": []
+  },
+  "static_deny": {
+    "enabled": [
+      "env-file-scan",
+      "git-metadata-scan",
+      "path-traversal-scan",
+      "log4shell-probe"
+    ]
+  }
+}

@@ -18,6 +18,7 @@ import (
 	"github.com/balyakin/crawlledger/internal/domain"
 	"github.com/balyakin/crawlledger/internal/parser"
 	"github.com/balyakin/crawlledger/internal/policy"
+	"github.com/balyakin/crawlledger/internal/protect"
 	"github.com/balyakin/crawlledger/internal/report"
 )
 
@@ -25,6 +26,9 @@ func TestSchemas(t *testing.T) {
 	types := map[string]reflect.Type{
 		"config-v1.schema.json":             reflect.TypeOf(config.Config{}),
 		"policy-v1.schema.json":             reflect.TypeOf(domain.Policy{}),
+		"protect-apply-v1.schema.json":      reflect.TypeOf(protect.ApplyPayload{}),
+		"protect-state-v1.schema.json":      reflect.TypeOf(protect.State{}),
+		"protect-v1.schema.json":            reflect.TypeOf(protect.Config{}),
 		"simulation-v1.schema.json":         reflect.TypeOf(domain.Simulation{}),
 		"report-v1.schema.json":             reflect.TypeOf(report.Model{}),
 		"sanitized-event-v1.schema.json":    reflect.TypeOf(parser.CanonicalEvent{}),

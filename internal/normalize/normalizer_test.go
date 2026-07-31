@@ -52,6 +52,30 @@ func TestActionableBoundary(t *testing.T) {
 	}
 }
 
+func TestNormalizeProtectionReturnsSafeCanonicalPath(t *testing.T) {
+	var key Key
+	normalizer := New(key)
+	record := parser.RawRecord{
+		TimestampUS: 1, ClientIP: netip.MustParseAddr("192.0.2.1"), Method: "POST",
+		RequestURI: "/api/search/42?q=x", Status: 200, CacheState: domain.CacheUnknown,
+	}
+	event, canonical, err := normalizer.NormalizeProtection(record, Facts{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if canonical == nil || *canonical != "/api/search/42" || event.Route != "/api/search/{int}" {
+		t.Fatalf("canonical=%v route=%q", canonical, event.Route)
+	}
+	record.RequestURI = "/api/%73earch"
+	_, canonical, err = normalizer.NormalizeProtection(record, Facts{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if canonical != nil {
+		t.Fatalf("encoded path became actionable: %q", *canonical)
+	}
+}
+
 func TestPathRejectsDisplayControls(t *testing.T) {
 	for _, character := range []rune{'\u0085', '\u200b', '\u2028', '\u2029', '\u202e', '\ufeff'} {
 		if !containsControl("/archive/" + string(character)) {
