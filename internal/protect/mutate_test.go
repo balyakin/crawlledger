@@ -376,6 +376,9 @@ func TestSetupManagedFilesRejectsNonemptyMapBeforeWriting(t *testing.T) {
 }
 
 func TestInvokePrivilegedApplyUsesExactArgumentsAndProjection(t *testing.T) {
+	directory := t.TempDir()
+	executable := filepath.Join(directory, "crawlledger")
+	configPath := filepath.Join(directory, "protect.json")
 	baseline := digestB
 	state := State{
 		SchemaVersion: 1, Site: "example", ConfigSHA256: digestA,
@@ -389,8 +392,8 @@ func TestInvokePrivilegedApplyUsesExactArgumentsAndProjection(t *testing.T) {
 	var gotStdin []byte
 	err := invokePrivilegedApply(
 		context.Background(),
-		"/usr/local/bin/crawlledger",
-		"/etc/crawlledger/protect.json",
+		executable,
+		configPath,
 		state,
 		func(_ context.Context, arguments []string, stdin []byte) error {
 			gotArguments = append([]string(nil), arguments...)
@@ -402,7 +405,7 @@ func TestInvokePrivilegedApplyUsesExactArgumentsAndProjection(t *testing.T) {
 		t.Fatal(err)
 	}
 	wantArguments := []string{
-		"-n", "/usr/local/bin/crawlledger", "protect", "apply", "--config", "/etc/crawlledger/protect.json",
+		"-n", executable, "protect", "apply", "--config", configPath,
 	}
 	wantStdin, err := ProjectState(state)
 	if err != nil {
@@ -417,8 +420,8 @@ func mutationTestConfig(t *testing.T) (Config, string) {
 	t.Helper()
 	directory := t.TempDir()
 	config := nginxTestConfig()
-	config.Nginx.Binary = "/usr/sbin/nginx"
-	config.Nginx.ConfigPath = "/etc/nginx/nginx.conf"
+	config.Nginx.Binary = filepath.Join(directory, "nginx")
+	config.Nginx.ConfigPath = filepath.Join(directory, "nginx.conf")
 	config.Nginx.ManagedDir = directory
 	return config, directory
 }

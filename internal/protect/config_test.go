@@ -5,11 +5,12 @@ import (
 	"encoding/hex"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 )
 
-const validConfigJSON = `{
+const validConfigJSONTemplate = `{
   "schema_version": 1,
   "site": "example",
   "log_path": "/var/log/nginx/access.crawlledger.json",
@@ -60,6 +61,8 @@ const validConfigJSON = `{
   }
 }`
 
+var validConfigJSON = makeValidConfigJSON(validConfigJSONTemplate)
+
 func TestLoadConfigPreservesExactDigest(t *testing.T) {
 	path := writeConfig(t, validConfigJSON)
 
@@ -77,7 +80,11 @@ func TestLoadConfigPreservesExactDigest(t *testing.T) {
 }
 
 func TestDocumentedProtectionConfigIsValid(t *testing.T) {
-	loaded, err := LoadConfig(filepath.Join("..", "..", "docs", "examples", "crawlledger-protect.json"))
+	data, err := os.ReadFile(filepath.Join("..", "..", "docs", "examples", "crawlledger-protect.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	loaded, err := LoadConfig(writeConfig(t, makeValidConfigJSON(string(data))))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -88,9 +95,14 @@ func TestDocumentedProtectionConfigIsValid(t *testing.T) {
 
 func TestLoadConfigRejectsUnsafeDocuments(t *testing.T) {
 	tests := map[string]string{
-		"unknown":          strings.Replace(validConfigJSON, `"site": "example",`, `"site": "example", "extra": 1,`, 1),
-		"duplicate":        strings.Replace(validConfigJSON, `"site": "example",`, `"site": "example", "site": "again",`, 1),
-		"relative path":    strings.Replace(validConfigJSON, `"log_path": "/var/log/nginx/access.crawlledger.json"`, `"log_path": "access.log"`, 1),
+		"unknown":   strings.Replace(validConfigJSON, `"site": "example",`, `"site": "example", "extra": 1,`, 1),
+		"duplicate": strings.Replace(validConfigJSON, `"site": "example",`, `"site": "example", "site": "again",`, 1),
+		"relative path": strings.Replace(
+			validConfigJSON,
+			strconv.Quote(testAbsolutePath("var", "log", "nginx", "access.crawlledger.json")),
+			`"access.log"`,
+			1,
+		),
 		"bad ttl":          strings.Replace(validConfigJSON, `"ttl_seconds": 600`, `"ttl_seconds": 59`, 1),
 		"bucket capacity":  strings.Replace(validConfigJSON, `"max_tracked_groups": 10000`, `"max_tracked_groups": 20000`, 1),
 		"duplicate method": strings.Replace(validConfigJSON, `"methods": []`, `"methods": ["POST", "POST"]`, 1),
@@ -121,4 +133,24 @@ func writeConfig(t *testing.T, data string) string {
 		t.Fatal(err)
 	}
 	return path
+}
+
+func makeValidConfigJSON(data string) string {
+	replacements := map[string][]string{
+		"/var/log/nginx/access.crawlledger.json":  {"var", "log", "nginx", "access.crawlledger.json"},
+		"/var/lib/crawlledger/example-baseline":   {"var", "lib", "crawlledger", "example-baseline"},
+		"/usr/sbin/nginx":                         {"usr", "sbin", "nginx"},
+		"/etc/nginx/nginx.conf":                   {"etc", "nginx", "nginx.conf"},
+		"/etc/nginx/crawlledger/example":          {"etc", "nginx", "crawlledger", "example"},
+		"/var/lib/crawlledger/example/state.json": {"var", "lib", "crawlledger", "example", "state.json"},
+	}
+	for source, elements := range replacements {
+		data = strings.Replace(data, strconv.Quote(source), strconv.Quote(testAbsolutePath(elements...)), 1)
+	}
+	return data
+}
+
+func testAbsolutePath(elements ...string) string {
+	root := filepath.VolumeName(os.TempDir()) + string(filepath.Separator)
+	return filepath.Join(append([]string{root}, elements...)...)
 }

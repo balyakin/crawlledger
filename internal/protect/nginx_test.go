@@ -2,6 +2,7 @@ package protect
 
 import (
 	"regexp"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -69,6 +70,7 @@ func TestDefaultStaticSignaturesMatchOnlyIntendedSyntheticRequests(t *testing.T)
 
 func TestRenderActiveMapIsCanonicalAndLongestPrefixFirst(t *testing.T) {
 	config := nginxTestConfig()
+	config.Nginx.ManagedDir = t.TempDir()
 	empty, err := RenderActiveMap(config, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -93,6 +95,7 @@ func TestRenderActiveMapIsCanonicalAndLongestPrefixFirst(t *testing.T) {
 }
 
 func TestRenderProtectionIncludesStaticDenyAndBurstModes(t *testing.T) {
+	requireNginxPathSemantics(t)
 	config := nginxTestConfig()
 	httpInclude, serverInclude, err := RenderProtectionIncludes(config)
 	if err != nil {
@@ -131,6 +134,7 @@ func TestRenderProtectionIncludesStaticDenyAndBurstModes(t *testing.T) {
 
 func TestRenderActiveMapRejectsUnsafeOrDuplicateActions(t *testing.T) {
 	config := nginxTestConfig()
+	config.Nginx.ManagedDir = t.TempDir()
 	tests := [][]ApplyRule{
 		{{Method: "GET", PathPrefix: "/health"}},
 		{{Method: "GET", PathPrefix: "/api%2fsearch"}},
@@ -145,6 +149,7 @@ func TestRenderActiveMapRejectsUnsafeOrDuplicateActions(t *testing.T) {
 
 func TestRenderActiveMapQuotesEveryAllowedPunctuation(t *testing.T) {
 	config := nginxTestConfig()
+	config.Nginx.ManagedDir = t.TempDir()
 	path := "/a!\"$&'()+,-.:;<=>@[]^_`|~"
 	if !domain.ValidActionable(path) {
 		t.Fatal("test path is not actionable")
@@ -167,4 +172,11 @@ func nginxTestConfig() Config {
 		"env-file-scan", "git-metadata-scan", "path-traversal-scan", "log4shell-probe",
 	}
 	return config
+}
+
+func requireNginxPathSemantics(t *testing.T) {
+	t.Helper()
+	if runtime.GOOS == "windows" {
+		t.Skip("Nginx live rendering uses Linux paths")
+	}
 }

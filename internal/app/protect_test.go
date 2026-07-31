@@ -39,7 +39,9 @@ func TestProtectRunDryRunNeverTouchesMutationPaths(t *testing.T) {
 		LogPath:           logPath,
 		BaselineWorkspace: workspace,
 		Nginx: protect.NginxConfig{
-			Binary: "/missing/nginx", ConfigPath: "/missing/nginx.conf", ManagedDir: "/missing/managed",
+			Binary:     filepath.Join(directory, "missing-nginx"),
+			ConfigPath: filepath.Join(directory, "missing-nginx.conf"),
+			ManagedDir: filepath.Join(directory, "missing-managed"),
 		},
 		Runtime: protect.RuntimeConfig{StateFile: statePath, MaxLogLineBytes: 4096},
 		Detection: protect.Detection{
